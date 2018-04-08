@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'librete.contrib.events.apps.EventsConfig',
     'librete.contrib.notes.apps.NotesConfig',
     'librete.contrib.tasks.apps.TasksConfig',
+    'librete.contrib.profiles.apps.ProfilesConfig',
 ]
 
 MIDDLEWARE = [
