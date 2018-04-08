@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+ipdb = "*"
+
+[packages]
+Django = "*"
+django-extensions = "*"
+djangorestframework = "*"
+coreapi = "*"
+django-oauth-toolkit = "*"
+
+[requires]
+python_version = "3.5"

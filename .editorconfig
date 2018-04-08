@@ -1,0 +1,20 @@
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines
+# Newline ending every file
+# No trailing whitespace
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Set default charset
+[*.py]
+charset = utf-8
+
+[*.py]
+indent_style = space
+indent_size = 4
+
+
