@@ -16,10 +16,25 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from rest_framework.routers import DefaultRouter
 from rest_framework.documentation import include_docs_urls
 
+from .contrib.profiles.views import UserViewSet
+from .contrib.events.views import EventViewSet
+from .contrib.notes.views import NoteViewSet
+from .contrib.tasks.views import TaskViewSet
+from .contrib.categories.views import CategoryViewSet
+
+
+router = DefaultRouter()
+router.register(r'users', UserViewSet, base_name='user')
+router.register(r'events', EventViewSet, base_name='event')
+router.register(r'notes', NoteViewSet, base_name='note')
+router.register(r'tasks', TaskViewSet, base_name='task')
+router.register(r'categories', CategoryViewSet, base_name='category')
 
 urlpatterns = [
+  path('', include(router.urls)),
   path('admin/', admin.site.urls),
   path('oauth2/', include('oauth2_provider.urls', namespace='oauth2_provider')),
   path('docs/', include_docs_urls(title='Lirete API', public=False)),
