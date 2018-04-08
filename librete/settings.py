@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     # Project apps
     'librete.contrib.categories.apps.CategoriesConfig',
+    'librete.contrib.events.apps.EventsConfig',
 ]
 
 MIDDLEWARE = [
