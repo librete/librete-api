@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'oauth2_provider',
+
+    # Project apps
+    'librete.contrib.categories.apps.CategoriesConfig',
 ]
 
 MIDDLEWARE = [
