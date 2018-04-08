@@ -10,6 +10,7 @@ Django = "*"
 django-extensions = "*"
 djangorestframework = "*"
 coreapi = "*"
+django-oauth-toolkit = "*"
 
 [requires]
 python_version = "3.5"
