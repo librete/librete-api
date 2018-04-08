@@ -1,0 +1,38 @@
+# Python CircleCI 2.0 configuration file
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.5
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - project-dependencies-{{ checksum "Pipfile.lock" }}
+          - project-dependencies--
+
+      - run:
+          name: install dependencies
+          command: |
+            sudo pip install pipenv virtualenv
+            pipenv install
+
+      - save_cache:
+          paths:
+            - ~/repo/.venv
+          key: project-dependencies--{{ checksum "Pipfile.lock" }}
+
+      - run:
+          name: run tests
+          command: |
+            pipenv run ./manage.py test
+
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports
