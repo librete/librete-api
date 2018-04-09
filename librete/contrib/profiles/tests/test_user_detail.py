@@ -137,6 +137,24 @@ class UserDetailTestCase(APITestCase):
         # Test if username is changed
         self.assertEqual(user.username, self.user.username)
 
+    def test_put_without_password(self):
+        url = reverse('user-detail', args=[self.user.pk])
+
+        data = {
+            'username': 'richard.roe',
+            'email': 'richard.roe@example.com',
+            'first_name': 'Richard',
+            'last_name': 'Roe',
+        }
+
+        response = self.client.put(url,
+                                   data=data,
+                                   format='json',
+                                   HTTP_AUTHORIZATION=self.token)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertTrue('current_password' in response.json())
+
     def test_delete(self):
         url = reverse('user-detail', args=[self.user.pk])
 
