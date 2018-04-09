@@ -11,6 +11,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.order_by('date_joined')
     serializer_class = UserSerializer
+    http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_serializer_class(self):
         serializer_class = self.serializer_class
