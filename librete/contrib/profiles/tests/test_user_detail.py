@@ -87,20 +87,21 @@ class UserDetailTestCase(APITestCase):
 
         self.assertDictEqual(response.json(), expected_response)
 
-    def test_patch(self):
+    def test_put(self):
         url = reverse('user-detail', args=[self.user.pk])
 
         data = {
             'username': 'richard.roe',
             'email': 'richard.roe@example.com',
+            'current_password': 'password',
             'first_name': 'Richard',
             'last_name': 'Roe',
         }
 
-        response = self.client.patch(url,
-                                     data=data,
-                                     format='json',
-                                     HTTP_AUTHORIZATION=self.token)
+        response = self.client.put(url,
+                                   data=data,
+                                   format='json',
+                                   HTTP_AUTHORIZATION=self.token)
         self.assertEqual(response.status_code, 200)
 
         user = User.objects.last()
@@ -108,7 +109,7 @@ class UserDetailTestCase(APITestCase):
         expected_response = {
             'url': response.wsgi_request.build_absolute_uri(
                 reverse('user-detail', args=[user.pk])),
-            'username': data.get('username'),
+            'username': self.user.username,
             'email': data.get('email'),
             'first_name': data.get('first_name'),
             'last_name': data.get('last_name'),
@@ -132,6 +133,27 @@ class UserDetailTestCase(APITestCase):
         }
 
         self.assertDictEqual(response.json(), expected_response)
+
+        # Test if username is changed
+        self.assertEqual(user.username, self.user.username)
+
+    def test_put_without_password(self):
+        url = reverse('user-detail', args=[self.user.pk])
+
+        data = {
+            'username': 'richard.roe',
+            'email': 'richard.roe@example.com',
+            'first_name': 'Richard',
+            'last_name': 'Roe',
+        }
+
+        response = self.client.put(url,
+                                   data=data,
+                                   format='json',
+                                   HTTP_AUTHORIZATION=self.token)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertTrue('current_password' in response.json())
 
     def test_delete(self):
         url = reverse('user-detail', args=[self.user.pk])
