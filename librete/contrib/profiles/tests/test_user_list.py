@@ -131,3 +131,4 @@ class UserListTestCase(APITestCase):
         }
 
         self.assertDictEqual(response.json(), expected_response)
+        self.assertTrue(user.check_password(data.get('password')))
