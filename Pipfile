@@ -12,6 +12,7 @@ django-extensions = "*"
 djangorestframework = "*"
 coreapi = "*"
 django-oauth-toolkit = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.5"
