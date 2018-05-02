@@ -20,3 +20,13 @@ class UserViewSet(viewsets.ModelViewSet):
             serializer_class = UserUpdateSerializer
 
         return serializer_class
+
+    def get_authenticators(self):
+        if self.request.method == 'POST':
+            return []
+        return super().get_authenticators()
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return []
+        return super().get_permissions()
