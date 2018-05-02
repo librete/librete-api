@@ -34,8 +34,8 @@ router.register(r'tasks', TaskViewSet, base_name='task')
 router.register(r'categories', CategoryViewSet, base_name='category')
 
 urlpatterns = [
-  path('', include(router.urls)),
+  path('api/', include(router.urls)),
+  path('api/oauth2/', include('oauth2_provider.urls', namespace='oauth2_provider')),
   path('admin/', admin.site.urls),
-  path('oauth2/', include('oauth2_provider.urls', namespace='oauth2_provider')),
   path('docs/', include_docs_urls(title='Lirete API', public=False)),
 ]
