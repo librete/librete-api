@@ -15,7 +15,7 @@ jobs:
       - restore_cache:
           keys:
           - project-dependencies-{{ checksum "Pipfile.lock" }}
-          - project-dependencies--
+          - project-dependencies-
 
       - run:
           name: install dependencies
@@ -26,7 +26,7 @@ jobs:
       - save_cache:
           paths:
             - ~/repo/.venv
-          key: project-dependencies--{{ checksum "Pipfile.lock" }}
+          key: project-dependencies-{{ checksum "Pipfile.lock" }}
 
       - run:
           name: run tests
