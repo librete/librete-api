@@ -16,8 +16,12 @@ class Task(TimestampModel):
     category = models.ForeignKey(Category,
                                  related_name='tasks',
                                  on_delete=models.CASCADE)
-    start_date = models.DateTimeField(_('Start date'))
-    end_date = models.DateTimeField(_('End date'))
+    start_date = models.DateTimeField(_('Start date'),
+                                      blank=True,
+                                      null=True)
+    end_date = models.DateTimeField(_('End date'),
+                                    blank=True,
+                                    null=True)
     description = models.CharField(_('Description'),
                                    max_length=1000,
                                    blank=True)
