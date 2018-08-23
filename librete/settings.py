@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'oauth2_provider',
+    'parler',
 
     # Project apps
     'librete.contrib.categories.apps.CategoriesConfig',
@@ -144,6 +145,13 @@ LANGUAGES = [
     ('en', 'English'),
     ('bg', 'Български'),
 ]
+
+PARLER_LANGUAGES = {
+    1: (
+        {'code': 'en'},
+        {'code': 'bg'},
+    )
+}
 
 TIME_ZONE = 'UTC'
 

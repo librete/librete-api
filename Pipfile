@@ -12,6 +12,7 @@ django-extensions = "*"
 djangorestframework = "*"
 coreapi = "*"
 django-oauth-toolkit = "*"
+django-parler = "*"
 
 [requires]
 python_version = "3.6"
