@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 from rest_framework.test import APITestCase
 
-from librete.contrib.categories.models import Category
+from librete.contrib.categories.models import Category, DefaultCategory
 from librete.contrib.events.models import Event
 from librete.contrib.notes.models import Note
 from librete.contrib.tasks.models import Task
@@ -96,6 +96,10 @@ class UserListTestCase(APITestCase):
         self.assertDictEqual(response.json(), expected_response)
 
     def test_post(self):
+        category_name = 'Category name'
+        category_description = 'Category descripiton'
+        DefaultCategory.objects.create(name=category_name,
+                                       description=category_description)
         number_of_users = User.objects.count()
         url = reverse('user-list')
 
@@ -117,6 +121,13 @@ class UserListTestCase(APITestCase):
 
         user = User.objects.last()
 
+        user_categories = Category.objects.filter(author=user)
+        number_of_categories = len(user_categories)
+        category = user_categories.first()
+        self.assertEqual(number_of_categories, 1)
+        self.assertEqual(category.name, category_name)
+        self.assertEqual(category.description, category_description)
+
         expected_response = {
             'url': response.wsgi_request.build_absolute_uri(
                 reverse('user-detail', args=[user.pk])),
@@ -124,7 +135,10 @@ class UserListTestCase(APITestCase):
             'email': data.get('email'),
             'first_name': data.get('first_name'),
             'last_name': data.get('last_name'),
-            'categories': [],
+            'categories': [
+                response.wsgi_request.build_absolute_uri(
+                    reverse('category-detail',
+                            args=[category.pk]))],
             'events': [],
             'notes': [],
             'tasks': [],
