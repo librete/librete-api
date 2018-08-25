@@ -1,6 +1,8 @@
+from django.contrib.auth.models import User
+
 from rest_framework import serializers
 
-from django.contrib.auth.models import User
+from librete.contrib.categories.models import Category, DefaultCategory
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -43,6 +45,10 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         if password is not None:
             instance.set_password(password)
         instance.save()
+        for category in DefaultCategory.objects.all():
+            Category.objects.create(name=category.name,
+                                    author=instance,
+                                    description=category.description)
         return instance
 
 
