@@ -57,6 +57,13 @@ class User(AbstractUser):
         validators=[validate_reminders],
         help_text=_("Minutes before the start, used for new events."),
     )
+    default_task_reminders = models.JSONField(
+        _("Default task reminders"),
+        default=list,
+        blank=True,
+        validators=[validate_reminders],
+        help_text=_("Minutes before the due date, used for new tasks."),
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

@@ -18,6 +18,7 @@ def test_get_me(auth_client, user):
         "language": "en",
         "time_zone": "UTC",
         "default_reminders": [15],
+        "default_task_reminders": [],
         "date_joined": response.json()["date_joined"],
     }
 

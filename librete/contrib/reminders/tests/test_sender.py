@@ -6,12 +6,13 @@ from unittest import mock
 
 import pytest
 import time_machine
+from django.core import signing
 from django.core.management import call_command
 from pywebpush import WebPushException
 
 from librete.contrib.reminders import sender
 from librete.contrib.reminders.management.commands.send_reminders import run_forever
-from librete.contrib.reminders.models import PushSubscription, ScheduledReminder
+from librete.contrib.reminders.models import PushSubscription, ScheduledReminder, WorkerRun
 from librete.tests.factories import EventFactory, PushSubscriptionFactory, UserFactory
 
 NOW = datetime(2030, 5, 1, 17, 45, tzinfo=UTC)
@@ -45,6 +46,10 @@ def pushed(webpush):
     ]
 
 
+def tag(event, minutes, start=None):
+    return f"event-{event.id}-{int((start or event.start_date).timestamp())}-{minutes}"
+
+
 def sent_at(event, minutes_before):
     return ScheduledReminder.objects.get(event=event, minutes_before=minutes_before).sent_at
 
@@ -59,7 +64,7 @@ def test_only_due_reminders_are_sent(webpush):
 
     # 60: already sent, 15: due exactly now, 5: still in the future.
     assert [(endpoint, p["notification"]["tag"]) for endpoint, p in pushed(webpush)] == [
-        (subscription.endpoint, f"event-{event.id}-15")
+        (subscription.endpoint, tag(event, 15))
     ]
     assert sent_at(event, 60) == NOW - timedelta(minutes=45)
     assert sent_at(event, 15) == NOW
@@ -82,7 +87,7 @@ def test_stale_reminders_are_marked_sent_without_sending(webpush):
 
     result = sender.send_due_reminders(now=NOW)
 
-    assert [p["notification"]["tag"] for _, p in pushed(webpush)] == [f"event-{late.id}-120"]
+    assert [p["notification"]["tag"] for _, p in pushed(webpush)] == [tag(late, 120)]
     assert sent_at(late, 121) == NOW
     assert sent_at(late, 120) == NOW
     assert sent_at(past, 0) == NOW
@@ -189,23 +194,39 @@ def test_payload_format(webpush):
 
     sender.send_due_reminders(now=NOW)
 
-    assert pushed(webpush)[0][1] == {
+    payload = pushed(webpush)[0][1]
+    snooze_url = payload["notification"]["data"]["onActionClick"]["snooze"]["url"]
+    assert payload == {
         "notification": {
             "title": "Concert",
             "body": "Starts at 18:00 · NDK",
             "icon": "/icons/icon-192x192.png",
             "badge": "/icons/icon-96x96.png",
-            "tag": f"event-{event.id}-15",
+            "tag": f"event-{event.id}-{int(START.timestamp())}-15",
+            "actions": [{"action": "snooze", "title": "Snooze 10 min"}],
             "data": {
                 "eventId": event.id,
+                "occurrenceStart": None,
                 "onActionClick": {
                     "default": {
                         "operation": "navigateLastFocusedOrOpen",
                         "url": f"/events/{event.id}",
                     },
+                    "snooze": {"operation": "sendRequest", "url": snooze_url},
                 },
             },
         },
+    }
+    token = snooze_url.removeprefix("/api/actions/").removesuffix("/")
+    data = signing.loads(token, salt="librete.actions")
+    assert data == {
+        "op": "snooze",
+        "type": "event",
+        "id": event.id,
+        "occurrence": None,
+        "minutes": 10,
+        "user": event.author_id,
+        "jti": data["jti"],
     }
 
 
@@ -236,9 +257,12 @@ def test_payload_is_localized_and_uses_the_users_time_zone(webpush):
     sender.send_due_reminders(now=NOW)
 
     notifications = {p["notification"]["tag"]: p["notification"] for _, p in pushed(webpush)}
-    assert notifications[f"event-{late.id}-285"]["title"] == "Концерт"
-    assert notifications[f"event-{late.id}-285"]["body"] == "Започва на 02.05.2030 в 01:30 · НДК"
-    assert notifications[f"event-{today.id}-15"]["body"] == "Започва в 21:00"
+    assert notifications[tag(late, 285)]["title"] == "Концерт"
+    assert notifications[tag(late, 285)]["body"] == "Започва на 02.05.2030 в 01:30 · НДК"
+    assert notifications[tag(late, 285)]["actions"] == [
+        {"action": "snooze", "title": "Отложи с 10 мин"}
+    ]
+    assert notifications[tag(today, 15)]["body"] == "Започва в 21:00"
 
 
 @pytest.mark.django_db
@@ -266,10 +290,23 @@ def test_send_reminders_command(webpush):
 
     assert webpush.call_count == 1
     assert sent_at(event, 15) == NOW + timedelta(seconds=30)
+    # The command also ran the series top-up and remembered when.
+    assert WorkerRun.objects.get(name="series-reminders").last_run_at == NOW + timedelta(
+        seconds=30
+    )
+
+
+@pytest.fixture
+def no_top_up():
+    # run_forever closes old connections, which ends the test's connection on PostgreSQL.
+    with mock.patch(
+        "librete.contrib.reminders.management.commands.send_reminders.top_up_if_due"
+    ) as patched:
+        yield patched
 
 
 @pytest.mark.django_db
-def test_loop_runs_until_stopped():
+def test_loop_runs_until_stopped(no_top_up):
     stop = threading.Event()
     with mock.patch(
         "librete.contrib.reminders.management.commands.send_reminders.send_due_reminders",
@@ -277,10 +314,11 @@ def test_loop_runs_until_stopped():
     ) as send:
         run_forever(interval=0, stop=stop)
     assert send.call_count == 1
+    assert no_top_up.call_count == 1
 
 
 @pytest.mark.django_db
-def test_loop_survives_errors():
+def test_loop_survives_errors(no_top_up):
     stop = threading.Event()
     calls = []
 

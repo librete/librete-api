@@ -12,6 +12,11 @@ class UserSerializer(serializers.ModelSerializer):
         required=False,
         help_text="Minutes before the start used for new events (0..40320, at most 5).",
     )
+    default_task_reminders = RemindersField(
+        required=False,
+        help_text="Minutes before the due date used for new tasks (0..40320, at most 5). "
+        "Default `[]`.",
+    )
 
     class Meta:
         model = User
@@ -23,6 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
             "language",
             "time_zone",
             "default_reminders",
+            "default_task_reminders",
             "date_joined",
         )
         read_only_fields = ("id", "email", "date_joined")

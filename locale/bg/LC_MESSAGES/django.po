@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-20 16:01+0000\n"
+"POT-Creation-Date: 2026-11-20 16:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,13 +25,14 @@ msgstr "Категории"
 
 #: librete/contrib/categories/models.py:10
 #: librete/contrib/categories/models.py:38 librete/contrib/events/models.py:13
-#: librete/contrib/notes/models.py:9 librete/contrib/tasks/models.py:19
+#: librete/contrib/notes/models.py:9 librete/contrib/reminders/models.py:111
+#: librete/contrib/tasks/models.py:20
 msgid "Name"
 msgstr "Име"
 
 #: librete/contrib/categories/models.py:11
 #: librete/contrib/categories/models.py:39 librete/contrib/events/models.py:20
-#: librete/contrib/tasks/models.py:33
+#: librete/contrib/tasks/models.py:34
 msgid "Description"
 msgstr "Описание"
 
@@ -49,7 +50,7 @@ msgid "Hex color such as #1e88e5, stored in lower case."
 msgstr "Шестнадесетичен цвят, напр. #1e88e5, съхранява се с малки букви."
 
 #: librete/contrib/categories/models.py:27 librete/contrib/events/models.py:15
-#: librete/contrib/notes/models.py:11 librete/contrib/tasks/models.py:21
+#: librete/contrib/notes/models.py:11 librete/contrib/tasks/models.py:22
 msgid "Category"
 msgstr "Категория"
 
@@ -66,11 +67,11 @@ msgstr "Категории по подразбиране"
 msgid "Events"
 msgstr "Събития"
 
-#: librete/contrib/events/models.py:17 librete/contrib/tasks/models.py:31
+#: librete/contrib/events/models.py:17 librete/contrib/tasks/models.py:32
 msgid "Start date"
 msgstr "Начална дата"
 
-#: librete/contrib/events/models.py:18 librete/contrib/tasks/models.py:32
+#: librete/contrib/events/models.py:18 librete/contrib/tasks/models.py:33
 msgid "End date"
 msgstr "Крайна дата"
 
@@ -79,7 +80,7 @@ msgid "Location"
 msgstr "Място"
 
 #: librete/contrib/events/models.py:22 librete/contrib/reminders/apps.py:7
-#: librete/contrib/users/admin.py:16
+#: librete/contrib/tasks/models.py:38 librete/contrib/users/admin.py:16
 msgid "Reminders"
 msgstr "Напомняния"
 
@@ -104,10 +105,8 @@ msgid "Original starts (UTC) of the occurrences that are skipped."
 msgstr "Първоначалните начала (UTC) на пропуснатите повторения."
 
 #: librete/contrib/events/models.py:46
-#, fuzzy
-#| msgid "Categories"
 msgid "Series"
-msgstr "Категории"
+msgstr "Серия"
 
 #: librete/contrib/events/models.py:51
 msgid "Set on an event that replaces one occurrence of a recurring event."
@@ -122,16 +121,14 @@ msgstr "Първоначално начало"
 msgid "The start of the occurrence this event replaces."
 msgstr "Началото на повторението, което това събитие заменя."
 
-#: librete/contrib/events/models.py:65 librete/contrib/reminders/models.py:16
+#: librete/contrib/events/models.py:65 librete/contrib/reminders/models.py:20
 msgid "Event"
 msgstr "Събитие"
 
 #: librete/contrib/events/recurrence.py:34
 #: librete/contrib/events/recurrence.py:38
-#, fuzzy
-#| msgid "Expected a list of minutes."
 msgid "Expected a list of date-times."
-msgstr "Очаква се списък с минути."
+msgstr "Очаква се списък с дати и часове."
 
 #: librete/contrib/events/serializers.py:116
 msgid "An event cannot replace its own occurrence."
@@ -175,73 +172,143 @@ msgstr "Текст"
 msgid "Note"
 msgstr "Бележка"
 
-#: librete/contrib/reminders/models.py:20
+#: librete/contrib/reminders/models.py:28 librete/contrib/tasks/models.py:57
+msgid "Task"
+msgstr "Задача"
+
+#: librete/contrib/reminders/models.py:35
+msgid "Occurrence start"
+msgstr "Начало на повторението"
+
+#: librete/contrib/reminders/models.py:38
+msgid "For an occurrence of a recurring event: its original start."
+msgstr "За повторение на повтарящо се събитие: първоначалното му начало."
+
+#: librete/contrib/reminders/models.py:40
 msgid "Minutes before"
 msgstr "Минути преди"
 
-#: librete/contrib/reminders/models.py:21
+#: librete/contrib/reminders/models.py:41
 msgid "Remind at"
 msgstr "Напомняне в"
 
-#: librete/contrib/reminders/models.py:22
+#: librete/contrib/reminders/models.py:42
 msgid "Sent at"
 msgstr "Изпратено в"
 
-#: librete/contrib/reminders/models.py:26
+#: librete/contrib/reminders/models.py:44
+msgid "One-off"
+msgstr "Еднократно"
+
+#: librete/contrib/reminders/models.py:44
+msgid "A snoozed reminder; not derived from the item."
+msgstr "Отложено напомняне; не произлиза от елемента."
+
+#: librete/contrib/reminders/models.py:49
 msgid "Scheduled reminder"
 msgstr "Планирано напомняне"
 
-#: librete/contrib/reminders/models.py:27
+#: librete/contrib/reminders/models.py:50
 msgid "Scheduled reminders"
 msgstr "Планирани напомняния"
 
-#: librete/contrib/reminders/models.py:50 librete/contrib/sync/models.py:27
-#: librete/contrib/users/models.py:68
+#: librete/contrib/reminders/models.py:97
+msgid "Token ID"
+msgstr "ID на токена"
+
+#: librete/contrib/reminders/models.py:98
+msgid "Used at"
+msgstr "Използван на"
+
+#: librete/contrib/reminders/models.py:101
+msgid "Used action token"
+msgstr "Използван токен за действие"
+
+#: librete/contrib/reminders/models.py:102
+msgid "Used action tokens"
+msgstr "Използвани токени за действия"
+
+#: librete/contrib/reminders/models.py:112
+msgid "Last run at"
+msgstr "Последно изпълнение"
+
+#: librete/contrib/reminders/models.py:115
+msgid "Worker run"
+msgstr "Изпълнение на фонов процес"
+
+#: librete/contrib/reminders/models.py:116
+msgid "Worker runs"
+msgstr "Изпълнения на фонов процес"
+
+#: librete/contrib/reminders/models.py:127 librete/contrib/sync/models.py:27
+#: librete/contrib/users/models.py:75
 msgid "User"
 msgstr "Потребител"
 
-#: librete/contrib/reminders/models.py:54
+#: librete/contrib/reminders/models.py:131
 msgid "Endpoint"
 msgstr "Адрес за известия"
 
-#: librete/contrib/reminders/models.py:55
+#: librete/contrib/reminders/models.py:132
 msgid "P-256 public key"
 msgstr "Публичен ключ P-256"
 
-#: librete/contrib/reminders/models.py:56
+#: librete/contrib/reminders/models.py:133
 msgid "Auth secret"
 msgstr "Секрет за удостоверяване"
 
-#: librete/contrib/reminders/models.py:57
+#: librete/contrib/reminders/models.py:134
 msgid "User agent"
 msgstr "Браузър"
 
-#: librete/contrib/reminders/models.py:58 librete/contrib/sync/models.py:34
+#: librete/contrib/reminders/models.py:135 librete/contrib/sync/models.py:34
 #: librete/utils/models.py:8
 msgid "Created at"
 msgstr "Създаден на"
 
-#: librete/contrib/reminders/models.py:59
+#: librete/contrib/reminders/models.py:136
 msgid "Last used at"
 msgstr "Последно използван на"
 
-#: librete/contrib/reminders/models.py:63
+#: librete/contrib/reminders/models.py:140
 msgid "Push subscription"
 msgstr "Абонамент за push известия"
 
-#: librete/contrib/reminders/models.py:64
+#: librete/contrib/reminders/models.py:141
 msgid "Push subscriptions"
 msgstr "Абонаменти за push известия"
 
-#: librete/contrib/reminders/sender.py:64
+#: librete/contrib/reminders/sender.py:72
 #, python-brace-format
 msgid "Starts at {time}"
 msgstr "Започва в {time}"
 
-#: librete/contrib/reminders/sender.py:67
+#: librete/contrib/reminders/sender.py:73
 #, python-brace-format
 msgid "Starts on {date} at {time}"
 msgstr "Започва на {date} в {time}"
+
+#: librete/contrib/reminders/sender.py:86
+#, python-brace-format
+msgid "Due at {time}"
+msgstr "Срок в {time}"
+
+#: librete/contrib/reminders/sender.py:87
+#, python-brace-format
+msgid "Due on {date} at {time}"
+msgstr "Срок на {date} в {time}"
+
+#: librete/contrib/reminders/sender.py:122
+msgid "Snooze 10 min"
+msgstr "Отложи с 10 мин"
+
+#: librete/contrib/reminders/sender.py:143
+msgid "Mark done"
+msgstr "Отбележи като готова"
+
+#: librete/contrib/reminders/sender.py:144
+msgid "Snooze 1 h"
+msgstr "Отложи с 1 ч"
 
 #: librete/contrib/reminders/serializers.py:21
 msgid "The endpoint must be an HTTPS URL."
@@ -264,6 +331,14 @@ msgstr "Напомнянията трябва да са между 0 и %(max)s 
 #, python-format
 msgid "At most %(max)s reminders are allowed."
 msgstr "Позволени са най-много %(max)s напомняния."
+
+#: librete/contrib/reminders/views.py:18
+msgid "This action link is invalid."
+msgstr "Тази връзка за действие е невалидна."
+
+#: librete/contrib/reminders/views.py:19
+msgid "This action link has expired or was already used."
+msgstr "Тази връзка за действие е изтекла или вече е използвана."
 
 #: librete/contrib/search/apps.py:7
 msgid "Search"
@@ -292,7 +367,7 @@ msgid "Sync"
 msgstr "Синхронизация"
 
 #: librete/contrib/sync/models.py:18 librete/contrib/tasks/apps.py:7
-#: librete/contrib/tasks/models.py:50
+#: librete/contrib/tasks/models.py:58
 msgid "Tasks"
 msgstr "Задачи"
 
@@ -324,57 +399,59 @@ msgstr "Промяна"
 msgid "Changes"
 msgstr "Промени"
 
-#: librete/contrib/tasks/models.py:11
+#: librete/contrib/tasks/models.py:12
 msgid "High"
 msgstr "Висок"
 
-#: librete/contrib/tasks/models.py:12
+#: librete/contrib/tasks/models.py:13
 msgid "Medium"
 msgstr "Среден"
 
-#: librete/contrib/tasks/models.py:13
+#: librete/contrib/tasks/models.py:14
 msgid "Low"
 msgstr "Нисък"
 
-#: librete/contrib/tasks/models.py:16
+#: librete/contrib/tasks/models.py:17
 msgid "Active"
 msgstr "Активна"
 
-#: librete/contrib/tasks/models.py:17
+#: librete/contrib/tasks/models.py:18
 msgid "Finished"
 msgstr "Завършена"
 
-#: librete/contrib/tasks/models.py:25
+#: librete/contrib/tasks/models.py:26
 msgid "Parent task"
 msgstr "Основна задача"
 
-#: librete/contrib/tasks/models.py:34
+#: librete/contrib/tasks/models.py:35
 msgid "Priority"
 msgstr "Приоритет"
 
-#: librete/contrib/tasks/models.py:35
+#: librete/contrib/tasks/models.py:36
 msgid "Status"
 msgstr "Статус"
 
-#: librete/contrib/tasks/models.py:38
+#: librete/contrib/tasks/models.py:42
+msgid "Minutes before the due date (or the start date without one)."
+msgstr "Минути преди крайния срок (или началната дата, ако няма срок)."
+
+#: librete/contrib/tasks/models.py:46
 msgid "Repeat"
 msgstr "Повторение"
 
-#: librete/contrib/tasks/models.py:44
+#: librete/contrib/tasks/models.py:52
 msgid ""
 "RFC 5545 RRULE without the RRULE: prefix. Completing the task creates the "
 "next one."
-msgstr "RRULE по RFC 5545 без префикса RRULE:. Завършването на задачата създава следващата."
+msgstr ""
+"RRULE по RFC 5545 без префикса RRULE:. Завършването на задачата създава "
+"следващата."
 
-#: librete/contrib/tasks/models.py:49
-msgid "Task"
-msgstr "Задача"
-
-#: librete/contrib/tasks/serializers.py:69
+#: librete/contrib/tasks/serializers.py:77
 msgid "A repeating task needs a due date or a start date."
 msgstr "Повтаряща се задача трябва да има краен срок или начална дата."
 
-#: librete/contrib/tasks/serializers.py:84
+#: librete/contrib/tasks/serializers.py:97
 msgid "A task cannot be its own parent or a subtask of its subtasks."
 msgstr "Задача не може да бъде част от себе си или от своите подзадачи."
 
@@ -390,7 +467,7 @@ msgstr "Права"
 msgid "Important dates"
 msgstr "Важни дати"
 
-#: librete/contrib/users/apps.py:8 librete/contrib/users/models.py:69
+#: librete/contrib/users/apps.py:8 librete/contrib/users/models.py:76
 msgid "Users"
 msgstr "Потребители"
 
@@ -427,7 +504,15 @@ msgstr "Напомняния по подразбиране"
 msgid "Minutes before the start, used for new events."
 msgstr "Минути преди началото, използвани за новите събития."
 
-#: librete/contrib/users/serializers.py:36
+#: librete/contrib/users/models.py:61
+msgid "Default task reminders"
+msgstr "Напомняния за задачи по подразбиране"
+
+#: librete/contrib/users/models.py:65
+msgid "Minutes before the due date, used for new tasks."
+msgstr "Минути преди крайния срок, използвани за нови задачи."
+
+#: librete/contrib/users/serializers.py:42
 msgid "Invalid password."
 msgstr "Грешна парола."
 

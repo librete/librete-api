@@ -3,6 +3,8 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from librete.contrib.reminders.services import refresh_series_of
+
 from .serializers import AccountDeleteSerializer, UserSerializer
 
 
@@ -13,6 +15,13 @@ class MeView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+    def perform_update(self, serializer):
+        old_time_zone = serializer.instance.time_zone
+        user = serializer.save()
+        # Series are expanded in the user's time zone, so their occurrences moved.
+        if user.time_zone != old_time_zone:
+            refresh_series_of(user)
 
 
 class AccountDeleteView(APIView):

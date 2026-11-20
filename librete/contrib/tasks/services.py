@@ -66,9 +66,8 @@ def create_next_instance(task, using=None):
         "description": task.description,
         "priority": task.priority,
         "repeat": remaining_rule(task.repeat),
+        "reminders": list(task.reminders),
     }
-    if hasattr(task, "reminders"):
-        fields["reminders"] = list(task.reminders)
     return manager.create(
         author_id=task.author_id,
         client_id=client_id,

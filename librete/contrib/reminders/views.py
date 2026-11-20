@@ -1,9 +1,12 @@
 from django.conf import settings
-from drf_spectacular.utils import extend_schema
-from rest_framework import mixins, status, viewsets
+from django.utils.translation import gettext_lazy as _
+from drf_spectacular.utils import OpenApiResponse, extend_schema, inline_serializer
+from rest_framework import mixins, serializers, status, viewsets
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from . import actions
 from .models import PushSubscription
 from .serializers import (
     PushSubscriptionInputSerializer,
@@ -12,6 +15,9 @@ from .serializers import (
 )
 
 USER_AGENT_MAX_LENGTH = PushSubscription._meta.get_field("user_agent").max_length
+INVALID_ACTION = _("This action link is invalid.")
+GONE_ACTION = _("This action link has expired or was already used.")
+ACTION_ERROR = inline_serializer("ActionError", {"detail": serializers.CharField()})
 
 
 class VapidKeyView(APIView):
@@ -60,3 +66,35 @@ class PushSubscriptionViewSet(
             PushSubscriptionSerializer(subscription).data,
             status=status.HTTP_201_CREATED if created else status.HTTP_200_OK,
         )
+
+
+class ActionView(APIView):
+    """Carry out a notification action (PWA push): mark a task done or snooze a reminder.
+
+    The token in the URL is signed by the server, valid for 7 days and single-use, so no
+    login is needed (the service worker calls it with a plain `fetch`). `done` marks the
+    task finished (creating the next instance of a repeating task); `snooze` reminds again
+    in the token's `minutes`. 204 on success; 400 for a malformed or tampered token, 410
+    for an expired or already used one or a deleted item. Nothing changes on errors.
+    """
+
+    authentication_classes = []
+    permission_classes = [AllowAny]
+
+    @extend_schema(
+        auth=[],
+        responses={
+            204: None,
+            400: OpenApiResponse(ACTION_ERROR, description="Malformed or tampered token."),
+            410: OpenApiResponse(
+                ACTION_ERROR, description="Expired or used token, or the item is gone."
+            ),
+        },
+    )
+    def get(self, request, token):
+        try:
+            actions.perform(token)
+        except actions.ActionError as error:
+            message = INVALID_ACTION if error.status == 400 else GONE_ACTION
+            return Response({"detail": message}, status=error.status)
+        return Response(status=status.HTTP_204_NO_CONTENT)

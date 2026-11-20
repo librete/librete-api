@@ -5,10 +5,10 @@ from .models import PushSubscription, ScheduledReminder
 
 @admin.register(ScheduledReminder)
 class ScheduledReminderAdmin(admin.ModelAdmin):
-    list_display = ("event", "minutes_before", "remind_at", "sent_at")
-    list_filter = ("sent_at",)
-    search_fields = ("event__name", "event__author__email")
-    raw_id_fields = ("event",)
+    list_display = ("__str__", "occurrence_start", "minutes_before", "remind_at", "sent_at")
+    list_filter = ("one_off", "sent_at")
+    search_fields = ("event__name", "event__author__email", "task__name", "task__author__email")
+    raw_id_fields = ("event", "task")
 
 
 @admin.register(PushSubscription)

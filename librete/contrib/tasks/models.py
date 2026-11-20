@@ -2,6 +2,7 @@ from django.db import models, router, transaction
 from django.utils.translation import gettext_lazy as _
 
 from librete.contrib.categories.models import Category
+from librete.contrib.reminders.validators import validate_reminders
 from librete.utils import recurrence
 from librete.utils.models import OwnedModel, lock_owner
 
@@ -33,6 +34,13 @@ class Task(OwnedModel):
     description = models.TextField(_("Description"), blank=True)
     priority = models.CharField(_("Priority"), max_length=16, choices=Priority, blank=True)
     status = models.CharField(_("Status"), max_length=16, choices=Status, default=Status.ACTIVE)
+    reminders = models.JSONField(
+        _("Reminders"),
+        default=list,
+        blank=True,
+        validators=[validate_reminders],
+        help_text=_("Minutes before the due date (or the start date without one)."),
+    )
     # null (not "") means "doesn't repeat": the API contract returns `null`.
     repeat = models.CharField(  # noqa: DJ001
         _("Repeat"),

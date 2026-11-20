@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 from librete.contrib.categories.models import Category
+from librete.contrib.reminders.fields import RemindersField
 from librete.utils import recurrence
 from librete.utils.serializers import (
     DateRangeValidationMixin,
@@ -17,6 +18,12 @@ class TaskSerializer(DateRangeValidationMixin, OwnedModelSerializer):
     category = OwnedPrimaryKeyRelatedField(queryset=Category.objects.all())
     parent = OwnedPrimaryKeyRelatedField(
         queryset=Task.objects.all(), allow_null=True, required=False
+    )
+    reminders = RemindersField(
+        required=False,
+        help_text="Minutes before the due date (`end_date`, else `start_date`; none without "
+        "a date or once finished), 0..40320, at most 5. Defaults to the user's "
+        "`default_task_reminders` on create; `[]` means no reminders.",
     )
     repeat = serializers.CharField(
         required=False,
@@ -41,6 +48,7 @@ class TaskSerializer(DateRangeValidationMixin, OwnedModelSerializer):
             "description",
             "priority",
             "status",
+            "reminders",
             "repeat",
             "created_at",
             "updated_at",
@@ -73,6 +81,11 @@ class TaskSerializer(DateRangeValidationMixin, OwnedModelSerializer):
             except DjangoValidationError as exc:
                 raise serializers.ValidationError({"repeat": exc.messages}) from exc
         return attrs
+
+    def create(self, validated_data):
+        if "reminders" not in validated_data:
+            validated_data["reminders"] = list(validated_data["author"].default_task_reminders)
+        return super().create(validated_data)
 
     def validate_parent(self, parent):
         if parent is None or self.instance is None:
