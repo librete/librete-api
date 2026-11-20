@@ -26,6 +26,7 @@ def test_openapi_schema(api_client):
         "/api/tasks/{id}/",
         "/api/users/me/",
         "/api/stats/",
+        "/api/sync/",
         "/api/push/vapid-key/",
         "/api/push/subscriptions/",
         "/api/push/subscriptions/{id}/",

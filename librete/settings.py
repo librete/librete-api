@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "librete.contrib.notes.apps.NotesConfig",
     "librete.contrib.tasks.apps.TasksConfig",
     "librete.contrib.reminders.apps.RemindersConfig",
+    "librete.contrib.sync.apps.SyncConfig",
 ]
 
 if DEBUG:
@@ -186,7 +187,8 @@ SPECTACULAR_SETTINGS = {
         "\n\nOffline sync: send a client-generated `client_id` (UUID) with every create; "
         "repeating a POST with the same `client_id` returns the existing item (200). Every "
         "item has a `version`; send it as `If-Match` with PUT, PATCH and DELETE to get 409 "
-        "(with the `current` item) instead of overwriting a newer version."
+        "(with the `current` item) instead of overwriting a newer version. "
+        "`GET /api/sync/?since=<cursor>` lists what changed since a cursor."
     ),
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
@@ -197,6 +199,10 @@ SPECTACULAR_SETTINGS = {
         },
     },
     "SECURITY": [{"SessionToken": []}],
+    "ENUM_NAME_OVERRIDES": {
+        "SyncTypeEnum": "librete.contrib.sync.models.Change.Type",
+        "SyncOpEnum": "librete.contrib.sync.models.Change.Op",
+    },
 }
 
 

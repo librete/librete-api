@@ -34,13 +34,15 @@ docker compose up --build                 # API + reminder worker + Postgres on 
 librete/
   settings.py          all config from env vars (django-environ); .env.example lists them
   settings_test.py     test overrides (MD5 hasher, locmem email)
-  urls.py              router + /api/users/me/, /api/stats/, /api/push/vapid-key/,
-                       /api/health/, /api/schema/, /api/docs/, /_allauth/ (allauth
-                       headless), /admin/
+  urls.py              router + /api/users/me/, /api/stats/, /api/sync/,
+                       /api/push/vapid-key/, /api/health/, /api/schema/, /api/docs/,
+                       /_allauth/ (allauth headless), /admin/
   templates/account/email/   branded allauth email templates
-  utils/               TimestampModel, OwnedModel (author FK), OwnedModelViewSet,
-                       OwnedPrimaryKeyRelatedField, DateRangeValidationMixin,
-                       SessionTokenAuthentication, StandardPagination
+  utils/               TimestampModel, OwnedModel (author FK, client_id, version,
+                       lock_owner), OwnedModelViewSet (idempotent create, If-Match/409,
+                       ETag), OwnedModelSerializer, OwnedPrimaryKeyRelatedField,
+                       DateRangeValidationMixin, SessionTokenAuthentication,
+                       StandardPagination
   contrib/
     users/             custom User (email login, no username, `language`, `time_zone`,
                        `default_reminders`), MeView, AccountDeleteView, SignupForm (extra
@@ -53,6 +55,8 @@ librete/
                        User), ScheduledReminder + services.sync_event_reminders (post_save
                        signal), PushSubscription + views (Web Push), sender.py (payload +
                        delivery), commands generate_vapid_keys / send_reminders
+    sync/              offline sync: Change (per-user change log), signals that record
+                       it, resources.py (type → model/serializer/queryset), SyncView
   tests/               factories, cross-cutting tests (ownership, pagination, i18n, misc)
 conftest.py            fixtures: api_client, user, other_user, auth_client, client_for
 locale/bg/             Bulgarian catalogue
@@ -83,12 +87,49 @@ deploy/                production compose (Postgres, API, reminder worker, Caddy
   {operation: "navigateLastFocusedOrOpen", url: "/events/<id>"}}}}`, body localized with the
   user's `language` and `time_zone`. Tests mock `pywebpush.webpush` and pass `now`.
 
+## Offline sync (contract shared with librete-mobile — don't change it unilaterally)
+Applies to categories, events, notes and tasks (everything on `OwnedModel`).
+- **`client_id`** (UUID or null): sent by the app on create, writable on create only
+  (ignored on PUT/PATCH). Unique per (author, resource) when set. A POST with a
+  `client_id` the author already used for that resource → **200** with the existing item
+  (payload ignored, no validation); otherwise **201**. A concurrent duplicate that hits the
+  unique constraint is answered the same way. Other users' `client_id`s are irrelevant.
+- **`version`** (read-only int): 1 on create, +1 on every save (API, admin, code —
+  `OwnedModel.save`). Single-item responses (GET/POST/PUT/PATCH) carry `ETag: "<version>"`.
+- **`If-Match`** on PUT, PATCH, DELETE: `3`, `"3"` or `W/"3"` (`*` = no check). Different from
+  the current version → **409** `{"detail": "This item was changed elsewhere."
+  (translated), "current": <item as GET returns it>}` and nothing changes. Absent → last
+  write wins. Unparseable → **400** `{"detail": ...}`. CORS allows `If-Match` and exposes
+  `ETag`.
+- **`GET /api/sync/`**: without `since` → `{"cursor": <latest change id of the user or 0>,
+  "has_more": false, "changes": []}` (the app calls it before its initial full load).
+  With `since=<int ≥ 0>` (+ `limit`, default 500, capped at 1000; + `types=events,notes`):
+  `{"cursor": <seq of the last returned change, or since>, "has_more": bool, "changes":
+  [{"seq", "type", "id", "op": "upsert" | "delete", "data": <item exactly as
+  GET /api/<type>/<id>/ returns it, incl. category counts> | null}]}`, ordered by `seq`.
+  Each object appears at most once (its latest change); an upsert whose object vanished is
+  reported as a delete. Negative/invalid `since`, `limit < 1` or unknown types → 400.
+- `Change(user, type, object_id, op, created_at)`, `id` = seq: exactly one row per (user,
+  type, object_id); every change deletes the old row and inserts a new one in the same
+  transaction (post_save / post_delete signals in `contrib/sync/signals.py`; cascaded
+  deletes get their own rows; deleting the user just drops the log). Migration
+  `sync/0002_backfill` gave pre-existing items an upsert row.
+- Every write to an owned model takes `lock_owner(author)` (the user row, `SELECT … FOR
+  UPDATE`) first, so a user's writes are serialized: `If-Match` checks can't race and change
+  ids are committed in order (a cursor never skips a change committed late).
+
 ## Conventions and rules
 - **Every user-owned model extends `OwnedModel`**; viewsets extend `OwnedModelViewSet`
   (queryset filtered to `request.user`, author set on create). Related fields to other
   owned objects must use `OwnedPrimaryKeyRelatedField` — never a plain queryset (that was
   an IDOR in the legacy code). `tests/test_ownership.py` covers every resource; add new
   resources to it.
+- **Every write to an owned model must record a `Change`** — go through `save()` /
+  `delete()` (signals do it). Never use queryset `.update()`, `bulk_create()` or
+  `bulk_update()` on categories, events, notes or tasks; if you must, record the changes
+  with `sync.services.record_change` after `lock_owner`, in the same transaction. New
+  synced resources: extend `OwnedModel` + `OwnedModelSerializer` (list `client_id` and
+  `version` in `fields`), add them to `Change.Type` and `sync/resources.py`.
 - Reverse accessors: `user.categories`, `user.events`, `user.notes`, `user.tasks`
   (`related_name="%(app_label)s"`).
 - Serializers use integer IDs, explicit `fields` tuples (no `__all__`).

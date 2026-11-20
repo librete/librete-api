@@ -22,7 +22,7 @@ def lock_owner(user_id, using=None):
     """
     user_model = get_user_model()
     queryset = user_model._base_manager.using(using).select_for_update()
-    list(queryset.filter(pk=user_id).values_list("pk", flat=True))
+    list(queryset.filter(pk=user_id).order_by().values_list("pk", flat=True))
 
 
 class OwnedModel(TimestampModel):

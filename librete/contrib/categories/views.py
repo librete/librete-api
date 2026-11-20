@@ -21,6 +21,15 @@ def _count(model):
     return Coalesce(Subquery(subquery, output_field=IntegerField()), 0)
 
 
+def with_counts(queryset):
+    """Annotate categories with the `*_count` fields `CategorySerializer` returns."""
+    return queryset.annotate(
+        events_count=_count(Event),
+        notes_count=_count(Note),
+        tasks_count=_count(Task),
+    )
+
+
 class CategoryViewSet(OwnedModelViewSet):
     """Categories group events, notes and tasks. Deleting a category deletes its items."""
 
@@ -30,15 +39,7 @@ class CategoryViewSet(OwnedModelViewSet):
     ordering_fields = ("name", "created_at", "updated_at")
 
     def get_queryset(self):
-        return (
-            super()
-            .get_queryset()
-            .annotate(
-                events_count=_count(Event),
-                notes_count=_count(Note),
-                tasks_count=_count(Task),
-            )
-        )
+        return with_counts(super().get_queryset())
 
     def _reload(self, serializer):
         # Re-read the saved object so the response includes the annotated counts.

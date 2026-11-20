@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-20 13:51+0200\n"
+"POT-Creation-Date: 2026-11-20 13:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: librete/contrib/categories/apps.py:7 librete/contrib/categories/models.py:14
+#: librete/contrib/sync/models.py:15
 msgid "Categories"
 msgstr "Категории"
 
@@ -48,6 +49,7 @@ msgid "Default categories"
 msgstr "Категории по подразбиране"
 
 #: librete/contrib/events/apps.py:7 librete/contrib/events/models.py:28
+#: librete/contrib/sync/models.py:16
 msgid "Events"
 msgstr "Събития"
 
@@ -77,6 +79,7 @@ msgid "Event"
 msgstr "Събитие"
 
 #: librete/contrib/notes/apps.py:7 librete/contrib/notes/models.py:17
+#: librete/contrib/sync/models.py:17
 msgid "Notes"
 msgstr "Бележки"
 
@@ -108,7 +111,8 @@ msgstr "Планирано напомняне"
 msgid "Scheduled reminders"
 msgstr "Планирани напомняния"
 
-#: librete/contrib/reminders/models.py:50 librete/contrib/users/models.py:68
+#: librete/contrib/reminders/models.py:50 librete/contrib/sync/models.py:27
+#: librete/contrib/users/models.py:68
 msgid "User"
 msgstr "Потребител"
 
@@ -128,7 +132,8 @@ msgstr "Секрет за удостоверяване"
 msgid "User agent"
 msgstr "Браузър"
 
-#: librete/contrib/reminders/models.py:58 librete/utils/models.py:8
+#: librete/contrib/reminders/models.py:58 librete/contrib/sync/models.py:34
+#: librete/utils/models.py:8
 msgid "Created at"
 msgstr "Създаден на"
 
@@ -184,9 +189,47 @@ msgstr "Непозната часова зона."
 msgid "A valid year is required."
 msgstr "Необходима е валидна година."
 
-#: librete/contrib/tasks/apps.py:7 librete/contrib/tasks/models.py:38
+#: librete/contrib/sync/apps.py:7
+msgid "Sync"
+msgstr "Синхронизация"
+
+#: librete/contrib/sync/models.py:18 librete/contrib/tasks/apps.py:7
+#: librete/contrib/tasks/models.py:38
 msgid "Tasks"
 msgstr "Задачи"
+
+#: librete/contrib/sync/models.py:21
+msgid "Created or updated"
+msgstr "Създаден или променен"
+
+#: librete/contrib/sync/models.py:22
+msgid "Deleted"
+msgstr "Изтрит"
+
+#: librete/contrib/sync/models.py:31
+msgid "Type"
+msgstr "Тип"
+
+#: librete/contrib/sync/models.py:32
+msgid "Object ID"
+msgstr "Идентификатор на обекта"
+
+#: librete/contrib/sync/models.py:33
+msgid "Operation"
+msgstr "Операция"
+
+#: librete/contrib/sync/models.py:37
+msgid "Change"
+msgstr "Промяна"
+
+#: librete/contrib/sync/models.py:38
+msgid "Changes"
+msgstr "Промени"
+
+#: librete/contrib/sync/views.py:34
+#, python-format
+msgid "Unknown types: %(types)s."
+msgstr "Непознати типове: %(types)s."
 
 #: librete/contrib/tasks/models.py:10
 msgid "High"
@@ -266,7 +309,7 @@ msgstr "Часова зона"
 
 #: librete/contrib/users/models.py:51
 msgid "IANA time zone name, e.g. Europe/Sofia. Used in reminders."
-msgstr "Име на часова зона по IANA, напр. Europe/Sofia. Използва се в напомнянията."
+msgstr ""
 "Име на часова зона по IANA, напр. Europe/Sofia. Използва се в напомнянията."
 
 #: librete/contrib/users/models.py:54
