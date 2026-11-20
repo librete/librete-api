@@ -30,7 +30,8 @@ class DateRangeValidationMixin:
 class OwnedModelSerializer(serializers.ModelSerializer):
     """Base serializer for `OwnedModel` resources.
 
-    `client_id` can only be set on create; it is ignored on updates.
+    `client_id` can only be set on create; it is ignored on updates. `version` is
+    read-only. Include both in the subclass's `fields`.
     """
 
     client_id = serializers.UUIDField(
@@ -39,6 +40,11 @@ class OwnedModelSerializer(serializers.ModelSerializer):
         help_text="Client-generated UUID that makes the create idempotent: a POST with a "
         "`client_id` already used for this resource returns the existing item (200). "
         "Ignored on updates.",
+    )
+    version = serializers.IntegerField(
+        read_only=True,
+        help_text="Incremented on every change. Send it in `If-Match` with PATCH, PUT and "
+        "DELETE to get 409 instead of overwriting a newer version.",
     )
 
     def update(self, instance, validated_data):

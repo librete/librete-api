@@ -32,6 +32,7 @@ class TaskSerializer(DateRangeValidationMixin, OwnedModelSerializer):
             "status",
             "created_at",
             "updated_at",
+            "version",
         )
 
     def validate_parent(self, parent):

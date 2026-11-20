@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-20 13:48+0200\n"
+"POT-Creation-Date: 2026-11-20 13:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -128,7 +128,7 @@ msgstr "Секрет за удостоверяване"
 msgid "User agent"
 msgstr "Браузър"
 
-#: librete/contrib/reminders/models.py:58 librete/utils/models.py:7
+#: librete/contrib/reminders/models.py:58 librete/utils/models.py:8
 msgid "Created at"
 msgstr "Създаден на"
 
@@ -224,7 +224,7 @@ msgstr "Статус"
 msgid "Task"
 msgstr "Задача"
 
-#: librete/contrib/tasks/serializers.py:44
+#: librete/contrib/tasks/serializers.py:45
 msgid "A task cannot be its own parent or a subtask of its subtasks."
 msgstr "Задача не може да бъде част от себе си или от своите подзадачи."
 
@@ -266,7 +266,7 @@ msgstr "Часова зона"
 
 #: librete/contrib/users/models.py:51
 msgid "IANA time zone name, e.g. Europe/Sofia. Used in reminders."
-msgstr ""
+msgstr "Име на часова зона по IANA, напр. Europe/Sofia. Използва се в напомнянията."
 "Име на часова зона по IANA, напр. Europe/Sofia. Използва се в напомнянията."
 
 #: librete/contrib/users/models.py:54
@@ -321,18 +321,30 @@ msgstr ""
 msgid "This mail can be safely ignored if you did not initiate this action."
 msgstr "Ако не сте поискали това, просто пренебрегнете този имейл."
 
-#: librete/utils/models.py:8
+#: librete/utils/models.py:9
 msgid "Updated at"
 msgstr "Променен на"
 
-#: librete/utils/models.py:19
+#: librete/utils/models.py:33
 msgid "Author"
 msgstr "Автор"
 
-#: librete/utils/models.py:25
+#: librete/utils/models.py:39
 msgid "Client ID"
 msgstr "Клиентски идентификатор"
+
+#: librete/utils/models.py:41
+msgid "Version"
+msgstr "Версия"
 
 #: librete/utils/serializers.py:25
 msgid "End date cannot be before start date."
 msgstr "Крайната дата не може да бъде преди началната."
+
+#: librete/utils/viewsets.py:19
+msgid "This item was changed elsewhere."
+msgstr "Този елемент е променен другаде."
+
+#: librete/utils/viewsets.py:38
+msgid "The If-Match header must hold a version number."
+msgstr "Заглавката If-Match трябва да съдържа номер на версия."

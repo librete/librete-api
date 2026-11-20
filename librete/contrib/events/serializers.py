@@ -31,6 +31,7 @@ class EventSerializer(DateRangeValidationMixin, OwnedModelSerializer):
             "reminders",
             "created_at",
             "updated_at",
+            "version",
         )
 
     def create(self, validated_data):

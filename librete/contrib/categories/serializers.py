@@ -22,4 +22,5 @@ class CategorySerializer(OwnedModelSerializer):
             "tasks_count",
             "created_at",
             "updated_at",
+            "version",
         )

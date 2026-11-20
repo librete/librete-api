@@ -183,6 +183,10 @@ SPECTACULAR_SETTINGS = {
         "Personal organizer API: categories, events, notes and tasks. "
         "Authentication endpoints are served by django-allauth under `/_allauth/app/v1/`; "
         "see `/_allauth/openapi.html`. Send the session token in the `X-Session-Token` header."
+        "\n\nOffline sync: send a client-generated `client_id` (UUID) with every create; "
+        "repeating a POST with the same `client_id` returns the existing item (200). Every "
+        "item has a `version`; send it as `If-Match` with PUT, PATCH and DELETE to get 409 "
+        "(with the `current` item) instead of overwriting a newer version."
     ),
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
@@ -213,7 +217,9 @@ CORS_ALLOW_HEADERS = (
     "authorization",
     "content-type",
     "x-session-token",
+    "if-match",
 )
+CORS_EXPOSE_HEADERS = ("etag",)
 CORS_URLS_REGEX = r"^/(api|_allauth)/.*$"
 
 CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
