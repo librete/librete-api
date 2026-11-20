@@ -9,6 +9,14 @@ def test_health(api_client):
 
 
 @pytest.mark.django_db
+def test_health_check_from_inside_the_container(api_client, settings):
+    # Production only allows the public domain plus the container-local names.
+    assert "127.0.0.1" in settings.ALLOWED_HOSTS
+    response = api_client.get("/api/health/", HTTP_HOST="127.0.0.1:8000")
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
 def test_openapi_schema(api_client):
     response = api_client.get("/api/schema/?format=json")
     assert response.status_code == 200

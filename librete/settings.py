@@ -21,7 +21,10 @@ SECRET_KEY = env(
     default="django-insecure-dev-only-key" if DEBUG else environ.Env.NOTSET,
 )
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"] if DEBUG else [])
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
+# The container health check calls the API on 127.0.0.1 (only reachable from inside the
+# container; Caddy forwards requests with the public domain as Host).
+ALLOWED_HOSTS += [host for host in ("localhost", "127.0.0.1") if host not in ALLOWED_HOSTS]
 
 # URL of the web app (PWA). Used in emails sent to users.
 FRONTEND_URL = env("FRONTEND_URL", default="http://localhost:8100").rstrip("/")
