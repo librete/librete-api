@@ -2,6 +2,18 @@
 #   docker compose up --build
 # The admin user can be created with:
 #   docker compose exec api python manage.py createsuperuser
+# Reminder push (worker) needs VAPID_PUBLIC_KEY / VAPID_PRIVATE_KEY, e.g. in `.env`
+# (generate with `docker compose run --rm api python manage.py generate_vapid_keys`).
+
+x-app-environment: &app-environment
+  DEBUG: "1"
+  DATABASE_URL: postgres://librete:librete@db:5432/librete
+  ALLOWED_HOSTS: "*"
+  EMAIL_URL: consolemail://
+  VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY:-}
+  VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY:-}
+  VAPID_SUBJECT: ${VAPID_SUBJECT:-mailto:admin@localhost}
+
 services:
   db:
     image: postgres:17
@@ -20,15 +32,26 @@ services:
 
   api:
     build: .
-    environment:
-      DEBUG: "1"
-      DATABASE_URL: postgres://librete:librete@db:5432/librete
-      ALLOWED_HOSTS: "*"
-      EMAIL_URL: consolemail://
+    environment: *app-environment
     ports:
       - "8000:8000"
     depends_on:
       db:
+        condition: service_healthy
+
+  # Sends due event reminders via Web Push every 60 s.
+  worker:
+    build: .
+    command: ["python", "manage.py", "send_reminders", "--loop"]
+    environment:
+      <<: *app-environment
+      RUN_MIGRATIONS: "0"
+    healthcheck:
+      disable: true
+    depends_on:
+      db:
+        condition: service_healthy
+      api:
         condition: service_healthy
 
 volumes:

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-20 10:03+0000\n"
+"POT-Creation-Date: 2026-11-20 10:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -143,6 +143,16 @@ msgstr "Абонамент за push известия"
 #: librete/contrib/reminders/models.py:64
 msgid "Push subscriptions"
 msgstr "Абонаменти за push известия"
+
+#: librete/contrib/reminders/sender.py:64
+#, python-brace-format
+msgid "Starts at {time}"
+msgstr "Започва в {time}"
+
+#: librete/contrib/reminders/sender.py:67
+#, python-brace-format
+msgid "Starts on {date} at {time}"
+msgstr "Започва на {date} в {time}"
 
 #: librete/contrib/reminders/serializers.py:21
 msgid "The endpoint must be an HTTPS URL."

@@ -1,8 +1,9 @@
 # Deploying Librete on a single server
 
-This stack runs PostgreSQL, the API (gunicorn) and [Caddy](https://caddyserver.com/), which
-serves the PWA and proxies `/api/`, `/_allauth/`, `/admin/` and `/static/` to the API on the
-same domain, with automatic HTTPS.
+This stack runs PostgreSQL, the API (gunicorn), a reminder `worker` (sends event reminders
+to the PWA via Web Push every 60 s) and [Caddy](https://caddyserver.com/), which serves the
+PWA and proxies `/api/`, `/_allauth/`, `/admin/` and `/static/` to the API on the same
+domain, with automatic HTTPS.
 
 Tested target: Ubuntu Server 26.04 with Docker Engine and the Compose plugin.
 
@@ -25,6 +26,18 @@ cd librete-api/deploy
 cp .env.example .env    # set DOMAIN, SECRET_KEY, POSTGRES_PASSWORD, EMAIL_URL
 ```
 
+Generate the VAPID key pair for Web Push reminders once and paste the two lines it prints
+into `.env` (also set `VAPID_SUBJECT=mailto:<your address>`; push services use it to contact
+you):
+
+```bash
+docker compose run --rm --no-deps -e RUN_MIGRATIONS=0 api python manage.py generate_vapid_keys
+```
+
+Keep the keys: replacing them invalidates every browser's push subscription (users have to
+enable reminders again). Without keys the API and app work, but the PWA gets no reminders
+(the Android app schedules its reminders locally either way).
+
 ## 3. Build the PWA into `deploy/web`
 
 From the `librete-mobile` repository:
@@ -41,7 +54,8 @@ docker compose up -d --build
 docker compose exec api python manage.py createsuperuser
 ```
 
-Migrations run automatically when the API container starts.
+Migrations run automatically when the API container starts. Check the reminder worker with
+`docker compose logs -f worker`.
 
 Check the deployment from your workstation (in `librete-mobile`):
 
