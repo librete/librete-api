@@ -1,20 +1,15 @@
-from rest_framework import viewsets
+from librete.utils.viewsets import OwnedModelViewSet
 
-from librete.utils.permissions import IsAuthor
 from .models import Note
 from .serializers import NoteSerializer
 
 
-class NoteViewSet(viewsets.ModelViewSet):
+class NoteViewSet(OwnedModelViewSet):
+    model = Note
     serializer_class = NoteSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
-
-    def get_queryset(self):
-        return Note.objects.all().filter(author=self.request.user)
-
-    def get_permissions(self):
-        permission_classes = super().get_permissions()
-        permission_classes.append(IsAuthor())
-        return permission_classes
+    filterset_fields = {
+        "category": ["exact"],
+        "created_at": ["gte", "lte"],
+    }
+    search_fields = ("name", "text")
+    ordering_fields = ("name", "created_at", "updated_at")

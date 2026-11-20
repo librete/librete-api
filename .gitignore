@@ -1,4 +1,13 @@
+__pycache__/
 *.pyc
+.venv/
+.env
 db.sqlite3
-local_settings.py
-.vscode
+staticfiles/*
+!staticfiles/.gitkeep
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.vscode/
+.idea/

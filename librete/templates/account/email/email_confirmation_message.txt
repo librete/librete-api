@@ -1,0 +1,8 @@
+{% extends "account/email/base_message.txt" %}
+{% load i18n %}
+
+{% block content %}{% autoescape off %}{% if code %}{% translate "Your email verification code is listed below. Please enter it in the Librete app." %}
+
+{{ code }}{% else %}{% blocktranslate %}To confirm your email address, go to {{ activate_url }}{% endblocktranslate %}{% endif %}
+
+{% translate "This mail can be safely ignored if you did not sign up for Librete." %}{% endautoescape %}{% endblock content %}

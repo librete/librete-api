@@ -1,12 +1,14 @@
 from rest_framework import serializers
 
+from librete.contrib.categories.models import Category
+from librete.utils.serializers import OwnedPrimaryKeyRelatedField
+
 from .models import Note
 
 
-class NoteSerializer(serializers.HyperlinkedModelSerializer):
-    author = serializers.HyperlinkedRelatedField(read_only=True,
-                                                 view_name='user-detail')
+class NoteSerializer(serializers.ModelSerializer):
+    category = OwnedPrimaryKeyRelatedField(queryset=Category.objects.all())
 
     class Meta:
         model = Note
-        fields = '__all__'
+        fields = ("id", "name", "category", "text", "created_at", "updated_at")

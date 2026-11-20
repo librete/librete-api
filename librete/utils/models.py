@@ -1,10 +1,26 @@
+from django.conf import settings
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
 class TimestampModel(models.Model):
-    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
+    created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Updated at"), auto_now=True)
 
     class Meta:
         abstract = True
+
+
+class OwnedModel(TimestampModel):
+    """Base for user-owned records. `related_name` is the model's plural, e.g. `user.events`."""
+
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name=_("Author"),
+        related_name="%(class)ss",
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        abstract = True
+        ordering = ["created_at"]
