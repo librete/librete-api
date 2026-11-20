@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-20 15:59+0000\n"
+"POT-Creation-Date: 2026-11-20 16:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,13 +25,13 @@ msgstr "Категории"
 
 #: librete/contrib/categories/models.py:10
 #: librete/contrib/categories/models.py:38 librete/contrib/events/models.py:13
-#: librete/contrib/notes/models.py:9 librete/contrib/tasks/models.py:18
+#: librete/contrib/notes/models.py:9 librete/contrib/tasks/models.py:19
 msgid "Name"
 msgstr "Име"
 
 #: librete/contrib/categories/models.py:11
 #: librete/contrib/categories/models.py:39 librete/contrib/events/models.py:20
-#: librete/contrib/tasks/models.py:32
+#: librete/contrib/tasks/models.py:33
 msgid "Description"
 msgstr "Описание"
 
@@ -49,7 +49,7 @@ msgid "Hex color such as #1e88e5, stored in lower case."
 msgstr "Шестнадесетичен цвят, напр. #1e88e5, съхранява се с малки букви."
 
 #: librete/contrib/categories/models.py:27 librete/contrib/events/models.py:15
-#: librete/contrib/notes/models.py:11 librete/contrib/tasks/models.py:20
+#: librete/contrib/notes/models.py:11 librete/contrib/tasks/models.py:21
 msgid "Category"
 msgstr "Категория"
 
@@ -66,11 +66,11 @@ msgstr "Категории по подразбиране"
 msgid "Events"
 msgstr "Събития"
 
-#: librete/contrib/events/models.py:17 librete/contrib/tasks/models.py:30
+#: librete/contrib/events/models.py:17 librete/contrib/tasks/models.py:31
 msgid "Start date"
 msgstr "Начална дата"
 
-#: librete/contrib/events/models.py:18 librete/contrib/tasks/models.py:31
+#: librete/contrib/events/models.py:18 librete/contrib/tasks/models.py:32
 msgid "End date"
 msgstr "Крайна дата"
 
@@ -111,7 +111,8 @@ msgstr "Категории"
 
 #: librete/contrib/events/models.py:51
 msgid "Set on an event that replaces one occurrence of a recurring event."
-msgstr "Задава се за събитие, което заменя едно повторение на повтарящо се събитие."
+msgstr ""
+"Задава се за събитие, което заменя едно повторение на повтарящо се събитие."
 
 #: librete/contrib/events/models.py:54
 msgid "Original start"
@@ -291,7 +292,7 @@ msgid "Sync"
 msgstr "Синхронизация"
 
 #: librete/contrib/sync/models.py:18 librete/contrib/tasks/apps.py:7
-#: librete/contrib/tasks/models.py:38
+#: librete/contrib/tasks/models.py:50
 msgid "Tasks"
 msgstr "Задачи"
 
@@ -323,43 +324,57 @@ msgstr "Промяна"
 msgid "Changes"
 msgstr "Промени"
 
-#: librete/contrib/tasks/models.py:10
+#: librete/contrib/tasks/models.py:11
 msgid "High"
 msgstr "Висок"
 
-#: librete/contrib/tasks/models.py:11
+#: librete/contrib/tasks/models.py:12
 msgid "Medium"
 msgstr "Среден"
 
-#: librete/contrib/tasks/models.py:12
+#: librete/contrib/tasks/models.py:13
 msgid "Low"
 msgstr "Нисък"
 
-#: librete/contrib/tasks/models.py:15
+#: librete/contrib/tasks/models.py:16
 msgid "Active"
 msgstr "Активна"
 
-#: librete/contrib/tasks/models.py:16
+#: librete/contrib/tasks/models.py:17
 msgid "Finished"
 msgstr "Завършена"
 
-#: librete/contrib/tasks/models.py:24
+#: librete/contrib/tasks/models.py:25
 msgid "Parent task"
 msgstr "Основна задача"
 
-#: librete/contrib/tasks/models.py:33
+#: librete/contrib/tasks/models.py:34
 msgid "Priority"
 msgstr "Приоритет"
 
-#: librete/contrib/tasks/models.py:34
+#: librete/contrib/tasks/models.py:35
 msgid "Status"
 msgstr "Статус"
 
-#: librete/contrib/tasks/models.py:37
+#: librete/contrib/tasks/models.py:38
+msgid "Repeat"
+msgstr "Повторение"
+
+#: librete/contrib/tasks/models.py:44
+msgid ""
+"RFC 5545 RRULE without the RRULE: prefix. Completing the task creates the "
+"next one."
+msgstr "RRULE по RFC 5545 без префикса RRULE:. Завършването на задачата създава следващата."
+
+#: librete/contrib/tasks/models.py:49
 msgid "Task"
 msgstr "Задача"
 
-#: librete/contrib/tasks/serializers.py:45
+#: librete/contrib/tasks/serializers.py:69
+msgid "A repeating task needs a due date or a start date."
+msgstr "Повтаряща се задача трябва да има краен срок или начална дата."
+
+#: librete/contrib/tasks/serializers.py:84
 msgid "A task cannot be its own parent or a subtask of its subtasks."
 msgstr "Задача не може да бъде част от себе си или от своите подзадачи."
 
