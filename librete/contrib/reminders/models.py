@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -39,3 +40,33 @@ class ScheduledReminder(models.Model):
 
     def __str__(self):
         return f"{self.event} − {self.minutes_before} min"
+
+
+class PushSubscription(models.Model):
+    """A browser's Web Push subscription (the PWA); reminders are pushed to it."""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name=_("User"),
+        related_name="push_subscriptions",
+        on_delete=models.CASCADE,
+    )
+    endpoint = models.URLField(_("Endpoint"), max_length=500, unique=True)
+    p256dh = models.CharField(_("P-256 public key"), max_length=255)
+    auth = models.CharField(_("Auth secret"), max_length=255)
+    user_agent = models.CharField(_("User agent"), max_length=255, blank=True)
+    created_at = models.DateTimeField(_("Created at"), auto_now_add=True)
+    last_used_at = models.DateTimeField(_("Last used at"), null=True, blank=True)
+
+    class Meta:
+        ordering = ["created_at"]
+        verbose_name = _("Push subscription")
+        verbose_name_plural = _("Push subscriptions")
+
+    def __str__(self):
+        return f"{self.user} – {self.user_agent or self.endpoint[:60]}"
+
+    @property
+    def subscription_info(self):
+        """The subscription in the format `pywebpush.webpush` expects."""
+        return {"endpoint": self.endpoint, "keys": {"p256dh": self.p256dh, "auth": self.auth}}

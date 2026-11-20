@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-20 10:01+0000\n"
+"POT-Creation-Date: 2026-11-20 10:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,7 +72,7 @@ msgstr "Напомняния"
 msgid "Minutes before the start, e.g. [60, 15]."
 msgstr "Минути преди началото, напр. [60, 15]."
 
-#: librete/contrib/events/models.py:27 librete/contrib/reminders/models.py:15
+#: librete/contrib/events/models.py:27 librete/contrib/reminders/models.py:16
 msgid "Event"
 msgstr "Събитие"
 
@@ -88,25 +88,65 @@ msgstr "Текст"
 msgid "Note"
 msgstr "Бележка"
 
-#: librete/contrib/reminders/models.py:19
+#: librete/contrib/reminders/models.py:20
 msgid "Minutes before"
 msgstr "Минути преди"
 
-#: librete/contrib/reminders/models.py:20
+#: librete/contrib/reminders/models.py:21
 msgid "Remind at"
 msgstr "Напомняне в"
 
-#: librete/contrib/reminders/models.py:21
+#: librete/contrib/reminders/models.py:22
 msgid "Sent at"
 msgstr "Изпратено в"
 
-#: librete/contrib/reminders/models.py:25
+#: librete/contrib/reminders/models.py:26
 msgid "Scheduled reminder"
 msgstr "Планирано напомняне"
 
-#: librete/contrib/reminders/models.py:26
+#: librete/contrib/reminders/models.py:27
 msgid "Scheduled reminders"
 msgstr "Планирани напомняния"
+
+#: librete/contrib/reminders/models.py:50 librete/contrib/users/models.py:68
+msgid "User"
+msgstr "Потребител"
+
+#: librete/contrib/reminders/models.py:54
+msgid "Endpoint"
+msgstr "Адрес за известия"
+
+#: librete/contrib/reminders/models.py:55
+msgid "P-256 public key"
+msgstr "Публичен ключ P-256"
+
+#: librete/contrib/reminders/models.py:56
+msgid "Auth secret"
+msgstr "Секрет за удостоверяване"
+
+#: librete/contrib/reminders/models.py:57
+msgid "User agent"
+msgstr "Браузър"
+
+#: librete/contrib/reminders/models.py:58 librete/utils/models.py:7
+msgid "Created at"
+msgstr "Създаден на"
+
+#: librete/contrib/reminders/models.py:59
+msgid "Last used at"
+msgstr "Последно използван на"
+
+#: librete/contrib/reminders/models.py:63
+msgid "Push subscription"
+msgstr "Абонамент за push известия"
+
+#: librete/contrib/reminders/models.py:64
+msgid "Push subscriptions"
+msgstr "Абонаменти за push известия"
+
+#: librete/contrib/reminders/serializers.py:21
+msgid "The endpoint must be an HTTPS URL."
+msgstr "Адресът трябва да започва с https://."
 
 #: librete/contrib/reminders/validators.py:21
 msgid "Expected a list of minutes."
@@ -227,10 +267,6 @@ msgstr "Напомняния по подразбиране"
 msgid "Minutes before the start, used for new events."
 msgstr "Минути преди началото, използвани за новите събития."
 
-#: librete/contrib/users/models.py:68
-msgid "User"
-msgstr "Потребител"
-
 #: librete/contrib/users/serializers.py:36
 msgid "Invalid password."
 msgstr "Грешна парола."
@@ -274,10 +310,6 @@ msgstr ""
 #: librete/templates/account/email/password_reset_code_message.txt:8
 msgid "This mail can be safely ignored if you did not initiate this action."
 msgstr "Ако не сте поискали това, просто пренебрегнете този имейл."
-
-#: librete/utils/models.py:7
-msgid "Created at"
-msgstr "Създаден на"
 
 #: librete/utils/models.py:8
 msgid "Updated at"

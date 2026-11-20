@@ -2,7 +2,13 @@
 
 import pytest
 
-from librete.tests.factories import CategoryFactory, EventFactory, NoteFactory, TaskFactory
+from librete.tests.factories import (
+    CategoryFactory,
+    EventFactory,
+    NoteFactory,
+    PushSubscriptionFactory,
+    TaskFactory,
+)
 
 RESOURCES = [
     ("categories", CategoryFactory, {"name": "Hijacked"}),
@@ -68,3 +74,10 @@ def test_author_cannot_be_set_by_client(auth_client, user, other_user, resource)
 
     obj = apps.get_model(resource, model[resource]).objects.get(pk=response.json()["id"])
     assert obj.author == user
+
+
+@pytest.mark.django_db
+def test_other_users_push_subscriptions_cannot_be_deleted(auth_client, other_user):
+    theirs = PushSubscriptionFactory(user=other_user)
+    assert auth_client.delete(f"/api/push/subscriptions/{theirs.id}/").status_code == 404
+    theirs.refresh_from_db()

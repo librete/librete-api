@@ -31,6 +31,9 @@ services:
       EMAIL_URL: ${EMAIL_URL:-consolemail://}
       DEFAULT_FROM_EMAIL: ${DEFAULT_FROM_EMAIL:-Librete <noreply@localhost>}
       ACCOUNT_EMAIL_VERIFICATION: ${ACCOUNT_EMAIL_VERIFICATION:-mandatory}
+      VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY:-}
+      VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY:-}
+      VAPID_SUBJECT: ${VAPID_SUBJECT:-mailto:admin@localhost}
     depends_on:
       db:
         condition: service_healthy

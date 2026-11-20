@@ -6,6 +6,7 @@ from django.utils import timezone
 from librete.contrib.categories.models import Category
 from librete.contrib.events.models import Event
 from librete.contrib.notes.models import Note
+from librete.contrib.reminders.models import PushSubscription
 from librete.contrib.tasks.models import Task
 from librete.contrib.users.models import User
 
@@ -64,3 +65,17 @@ class TaskFactory(factory.django.DjangoModelFactory):
     description = "Task description"
     priority = Task.Priority.HIGH
     status = Task.Status.ACTIVE
+
+
+class PushSubscriptionFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = PushSubscription
+
+    user = factory.SubFactory(UserFactory)
+    endpoint = factory.Sequence(lambda n: f"https://push.example.com/send/{n}")
+    # A valid P-256 point and 16-byte secret (base64url), so real encryption would work.
+    p256dh = (
+        "BNIAU3BfEsmTb5J_s9b3bOXDWvv-yuouy_qVx7TK6Y67LCLDtNnb2O-y7AxCBMgLML_9E8_DPelsK0N0NX7Fp0w"
+    )
+    auth = "hrSmJqCFRQ9XH2R0emTBgQ"
+    user_agent = "Mozilla/5.0"

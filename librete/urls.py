@@ -8,6 +8,7 @@ from rest_framework.routers import DefaultRouter
 from .contrib.categories.views import CategoryViewSet
 from .contrib.events.views import EventViewSet
 from .contrib.notes.views import NoteViewSet
+from .contrib.reminders.views import PushSubscriptionViewSet, VapidKeyView
 from .contrib.stats.views import StatsView
 from .contrib.tasks.views import TaskViewSet
 from .contrib.users.views import AccountDeleteView, MeView
@@ -17,6 +18,7 @@ router.register("categories", CategoryViewSet, basename="category")
 router.register("events", EventViewSet, basename="event")
 router.register("notes", NoteViewSet, basename="note")
 router.register("tasks", TaskViewSet, basename="task")
+router.register("push/subscriptions", PushSubscriptionViewSet, basename="push-subscription")
 
 
 def health(request):
@@ -26,6 +28,7 @@ def health(request):
 
 
 urlpatterns = [
+    path("api/push/vapid-key/", VapidKeyView.as_view(), name="push-vapid-key"),
     path("api/", include(router.urls)),
     path("api/users/me/", MeView.as_view(), name="user-me"),
     path("api/users/me/delete/", AccountDeleteView.as_view(), name="user-delete"),

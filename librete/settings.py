@@ -224,6 +224,14 @@ DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="Librete <noreply@localho
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 
+# Web Push (VAPID) for event reminders in the PWA. Generate a key pair with
+# `python manage.py generate_vapid_keys`. Push is disabled while the keys are empty.
+
+VAPID_PUBLIC_KEY = env("VAPID_PUBLIC_KEY", default="")
+VAPID_PRIVATE_KEY = env("VAPID_PRIVATE_KEY", default="")
+VAPID_SUBJECT = env("VAPID_SUBJECT", default="mailto:admin@localhost")
+
+
 # Internationalization
 
 LANGUAGE_CODE = "en"

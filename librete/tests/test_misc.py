@@ -13,7 +13,15 @@ def test_openapi_schema(api_client):
     response = api_client.get("/api/schema/?format=json")
     assert response.status_code == 200
     paths = response.json()["paths"]
-    for path in ("/api/events/", "/api/tasks/{id}/", "/api/users/me/", "/api/stats/"):
+    for path in (
+        "/api/events/",
+        "/api/tasks/{id}/",
+        "/api/users/me/",
+        "/api/stats/",
+        "/api/push/vapid-key/",
+        "/api/push/subscriptions/",
+        "/api/push/subscriptions/{id}/",
+    ):
         assert path in paths
 
 
