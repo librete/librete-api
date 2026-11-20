@@ -2,12 +2,16 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 from librete.contrib.categories.models import Category
-from librete.utils.serializers import DateRangeValidationMixin, OwnedPrimaryKeyRelatedField
+from librete.utils.serializers import (
+    DateRangeValidationMixin,
+    OwnedModelSerializer,
+    OwnedPrimaryKeyRelatedField,
+)
 
 from .models import Task
 
 
-class TaskSerializer(DateRangeValidationMixin, serializers.ModelSerializer):
+class TaskSerializer(DateRangeValidationMixin, OwnedModelSerializer):
     category = OwnedPrimaryKeyRelatedField(queryset=Category.objects.all())
     parent = OwnedPrimaryKeyRelatedField(
         queryset=Task.objects.all(), allow_null=True, required=False
@@ -17,6 +21,7 @@ class TaskSerializer(DateRangeValidationMixin, serializers.ModelSerializer):
         model = Task
         fields = (
             "id",
+            "client_id",
             "name",
             "category",
             "parent",

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-20 10:05+0000\n"
+"POT-Creation-Date: 2026-11-20 13:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -224,7 +224,7 @@ msgstr "Статус"
 msgid "Task"
 msgstr "Задача"
 
-#: librete/contrib/tasks/serializers.py:39
+#: librete/contrib/tasks/serializers.py:44
 msgid "A task cannot be its own parent or a subtask of its subtasks."
 msgstr "Задача не може да бъде част от себе си или от своите подзадачи."
 
@@ -328,6 +328,10 @@ msgstr "Променен на"
 #: librete/utils/models.py:19
 msgid "Author"
 msgstr "Автор"
+
+#: librete/utils/models.py:25
+msgid "Client ID"
+msgstr "Клиентски идентификатор"
 
 #: librete/utils/serializers.py:25
 msgid "End date cannot be before start date."

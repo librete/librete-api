@@ -37,6 +37,7 @@ class Task(OwnedModel):
         verbose_name = _("Task")
         verbose_name_plural = _("Tasks")
         constraints = [
+            *OwnedModel.Meta.constraints,
             models.CheckConstraint(
                 condition=models.Q(start_date__isnull=True)
                 | models.Q(end_date__isnull=True)

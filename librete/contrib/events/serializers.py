@@ -1,13 +1,15 @@
-from rest_framework import serializers
-
 from librete.contrib.categories.models import Category
 from librete.contrib.reminders.fields import RemindersField
-from librete.utils.serializers import DateRangeValidationMixin, OwnedPrimaryKeyRelatedField
+from librete.utils.serializers import (
+    DateRangeValidationMixin,
+    OwnedModelSerializer,
+    OwnedPrimaryKeyRelatedField,
+)
 
 from .models import Event
 
 
-class EventSerializer(DateRangeValidationMixin, serializers.ModelSerializer):
+class EventSerializer(DateRangeValidationMixin, OwnedModelSerializer):
     category = OwnedPrimaryKeyRelatedField(queryset=Category.objects.all())
     reminders = RemindersField(
         required=False,
@@ -19,6 +21,7 @@ class EventSerializer(DateRangeValidationMixin, serializers.ModelSerializer):
         model = Event
         fields = (
             "id",
+            "client_id",
             "name",
             "category",
             "start_date",

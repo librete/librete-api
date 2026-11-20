@@ -25,3 +25,22 @@ class DateRangeValidationMixin:
                 {"end_date": _("End date cannot be before start date.")}
             )
         return attrs
+
+
+class OwnedModelSerializer(serializers.ModelSerializer):
+    """Base serializer for `OwnedModel` resources.
+
+    `client_id` can only be set on create; it is ignored on updates.
+    """
+
+    client_id = serializers.UUIDField(
+        required=False,
+        allow_null=True,
+        help_text="Client-generated UUID that makes the create idempotent: a POST with a "
+        "`client_id` already used for this resource returns the existing item (200). "
+        "Ignored on updates.",
+    )
+
+    def update(self, instance, validated_data):
+        validated_data.pop("client_id", None)
+        return super().update(instance, validated_data)

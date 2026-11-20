@@ -27,6 +27,7 @@ class Event(OwnedModel):
         verbose_name = _("Event")
         verbose_name_plural = _("Events")
         constraints = [
+            *OwnedModel.Meta.constraints,
             models.CheckConstraint(
                 condition=models.Q(end_date__gte=models.F("start_date")),
                 name="event_end_after_start",
