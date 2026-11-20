@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 User = get_user_model()
@@ -16,5 +17,5 @@ class AccountDeleteSerializer(serializers.Serializer):
 
     def validate_password(self, value):
         if not self.context["request"].user.check_password(value):
-            raise serializers.ValidationError("Invalid password.")
+            raise serializers.ValidationError(_("Invalid password."))
         return value

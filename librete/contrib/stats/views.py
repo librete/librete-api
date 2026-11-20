@@ -3,6 +3,7 @@ import zoneinfo
 from django.db.models import Count, F
 from django.db.models.functions import Coalesce, ExtractMonth
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema, inline_serializer
 from rest_framework import serializers
@@ -55,13 +56,14 @@ class StatsView(APIView):
         try:
             tz = zoneinfo.ZoneInfo(request.query_params.get("tz") or "UTC")
         except (zoneinfo.ZoneInfoNotFoundError, ValueError) as error:
-            raise serializers.ValidationError({"tz": "Unknown time zone."}) from error
+            raise serializers.ValidationError({"tz": _("Unknown time zone.")}) from error
 
         with timezone.override(tz):
             try:
                 year = int(request.query_params.get("year") or timezone.localdate().year)
             except ValueError as error:
-                raise serializers.ValidationError({"year": "A valid year is required."}) from error
+                message = _("A valid year is required.")
+                raise serializers.ValidationError({"year": message}) from error
 
             user = request.user
             events = Event.objects.filter(author=user)

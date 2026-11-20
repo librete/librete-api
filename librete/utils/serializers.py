@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 
@@ -21,6 +22,6 @@ class DateRangeValidationMixin:
         end = attrs.get("end_date", getattr(self.instance, "end_date", None))
         if start and end and end < start:
             raise serializers.ValidationError(
-                {"end_date": "End date cannot be before start date."}
+                {"end_date": _("End date cannot be before start date.")}
             )
         return attrs

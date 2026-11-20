@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 from librete.contrib.categories.models import Category
@@ -35,7 +36,7 @@ class TaskSerializer(DateRangeValidationMixin, serializers.ModelSerializer):
         while ancestor is not None:
             if ancestor.pk == self.instance.pk:
                 raise serializers.ValidationError(
-                    "A task cannot be its own parent or a subtask of its subtasks."
+                    _("A task cannot be its own parent or a subtask of its subtasks.")
                 )
             ancestor = ancestor.parent
         return parent

@@ -1,0 +1,226 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-20 05:48+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: bg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: librete/contrib/categories/apps.py:7
+#: librete/contrib/categories/models.py:14
+msgid "Categories"
+msgstr "Категории"
+
+#: librete/contrib/categories/models.py:9
+#: librete/contrib/categories/models.py:24 librete/contrib/events/models.py:9
+#: librete/contrib/notes/models.py:9 librete/contrib/tasks/models.py:18
+msgid "Name"
+msgstr "Име"
+
+#: librete/contrib/categories/models.py:10
+#: librete/contrib/categories/models.py:25 librete/contrib/events/models.py:16
+#: librete/contrib/tasks/models.py:32
+msgid "Description"
+msgstr "Описание"
+
+#: librete/contrib/categories/models.py:13 librete/contrib/events/models.py:11
+#: librete/contrib/notes/models.py:11 librete/contrib/tasks/models.py:20
+msgid "Category"
+msgstr "Категория"
+
+#: librete/contrib/categories/models.py:30
+msgid "Default category"
+msgstr "Категория по подразбиране"
+
+#: librete/contrib/categories/models.py:31
+msgid "Default categories"
+msgstr "Категории по подразбиране"
+
+#: librete/contrib/events/apps.py:7 librete/contrib/events/models.py:20
+msgid "Events"
+msgstr "Събития"
+
+#: librete/contrib/events/models.py:13 librete/contrib/tasks/models.py:30
+msgid "Start date"
+msgstr "Начална дата"
+
+#: librete/contrib/events/models.py:14 librete/contrib/tasks/models.py:31
+msgid "End date"
+msgstr "Крайна дата"
+
+#: librete/contrib/events/models.py:15
+msgid "Location"
+msgstr "Място"
+
+#: librete/contrib/events/models.py:19
+msgid "Event"
+msgstr "Събитие"
+
+#: librete/contrib/notes/apps.py:7 librete/contrib/notes/models.py:17
+msgid "Notes"
+msgstr "Бележки"
+
+#: librete/contrib/notes/models.py:13
+msgid "Text"
+msgstr "Текст"
+
+#: librete/contrib/notes/models.py:16
+msgid "Note"
+msgstr "Бележка"
+
+#: librete/contrib/stats/views.py:59
+msgid "Unknown time zone."
+msgstr "Непозната часова зона."
+
+#: librete/contrib/stats/views.py:65
+msgid "A valid year is required."
+msgstr "Необходима е валидна година."
+
+#: librete/contrib/tasks/apps.py:7 librete/contrib/tasks/models.py:38
+msgid "Tasks"
+msgstr "Задачи"
+
+#: librete/contrib/tasks/models.py:10
+msgid "High"
+msgstr "Висок"
+
+#: librete/contrib/tasks/models.py:11
+msgid "Medium"
+msgstr "Среден"
+
+#: librete/contrib/tasks/models.py:12
+msgid "Low"
+msgstr "Нисък"
+
+#: librete/contrib/tasks/models.py:15
+msgid "Active"
+msgstr "Активна"
+
+#: librete/contrib/tasks/models.py:16
+msgid "Finished"
+msgstr "Завършена"
+
+#: librete/contrib/tasks/models.py:24
+msgid "Parent task"
+msgstr "Основна задача"
+
+#: librete/contrib/tasks/models.py:33
+msgid "Priority"
+msgstr "Приоритет"
+
+#: librete/contrib/tasks/models.py:34
+msgid "Status"
+msgstr "Статус"
+
+#: librete/contrib/tasks/models.py:37
+msgid "Task"
+msgstr "Задача"
+
+#: librete/contrib/tasks/serializers.py:39
+msgid "A task cannot be its own parent or a subtask of its subtasks."
+msgstr "Задача не може да бъде част от себе си или от своите подзадачи."
+
+#: librete/contrib/users/admin.py:15
+msgid "Personal info"
+msgstr "Лична информация"
+
+#: librete/contrib/users/admin.py:17
+msgid "Permissions"
+msgstr "Права"
+
+#: librete/contrib/users/admin.py:20
+msgid "Important dates"
+msgstr "Важни дати"
+
+#: librete/contrib/users/apps.py:8 librete/contrib/users/models.py:51
+msgid "Users"
+msgstr "Потребители"
+
+#: librete/contrib/users/forms.py:10
+msgid "First name"
+msgstr "Име"
+
+#: librete/contrib/users/forms.py:11
+msgid "Last name"
+msgstr "Фамилия"
+
+#: librete/contrib/users/forms.py:12 librete/contrib/users/models.py:37
+msgid "Language"
+msgstr "Език"
+
+#: librete/contrib/users/models.py:35
+msgid "Email address"
+msgstr "Имейл адрес"
+
+#: librete/contrib/users/models.py:50
+msgid "User"
+msgstr "Потребител"
+
+#: librete/contrib/users/serializers.py:20
+msgid "Invalid password."
+msgstr "Грешна парола."
+
+#: librete/templates/account/email/base_message.txt:1
+msgid "Hello from Librete!"
+msgstr "Здравейте от Либрете!"
+
+#: librete/templates/account/email/base_message.txt:5
+msgid "Thank you for using Librete!"
+msgstr "Благодарим ви, че използвате Либрете!"
+
+#: librete/templates/account/email/email_confirmation_message.txt:4
+msgid ""
+"Your email verification code is listed below. Please enter it in the Librete"
+" app."
+msgstr ""
+"Кодът за потвърждение на имейла ви е по-долу. Въведете го в приложението "
+"Либрете."
+
+#: librete/templates/account/email/email_confirmation_message.txt:6
+#, python-format
+msgid "To confirm your email address, go to %(activate_url)s"
+msgstr "За да потвърдите имейл адреса си, отворете %(activate_url)s"
+
+#: librete/templates/account/email/email_confirmation_message.txt:8
+msgid "This mail can be safely ignored if you did not sign up for Librete."
+msgstr ""
+"Ако не сте се регистрирали в Либрете, просто пренебрегнете този имейл."
+
+#: librete/templates/account/email/password_reset_code_message.txt:4
+msgid ""
+"Your password reset code is listed below. Please enter it in the Librete "
+"app."
+msgstr ""
+"Кодът за смяна на паролата ви е по-долу. Въведете го в приложението Либрете."
+
+#: librete/templates/account/email/password_reset_code_message.txt:8
+msgid "This mail can be safely ignored if you did not initiate this action."
+msgstr "Ако не сте поискали това, просто пренебрегнете този имейл."
+
+#: librete/utils/models.py:7
+msgid "Created at"
+msgstr "Създаден на"
+
+#: librete/utils/models.py:8
+msgid "Updated at"
+msgstr "Променен на"
+
+#: librete/utils/models.py:19
+msgid "Author"
+msgstr "Автор"
+
+#: librete/utils/serializers.py:25
+msgid "End date cannot be before start date."
+msgstr "Крайната дата не може да бъде преди началната."
