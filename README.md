@@ -22,6 +22,13 @@ uv run python manage.py runserver
 With `EMAIL_URL=consolemail://`, verification and password-reset codes are printed to the
 console.
 
+### With Docker (PostgreSQL)
+
+```bash
+docker compose up --build        # API on http://localhost:8000
+docker compose exec api python manage.py createsuperuser
+```
+
 ## Tests and linting
 
 ```bash
@@ -46,3 +53,8 @@ Authenticated requests send the session token returned by login/signup in the
 
 Email verification is mandatory by default and uses short codes (`ABCD-EFGH`) rather than
 links, so it works the same in the mobile app and the PWA.
+
+## Deployment
+
+See [`deploy/README.md`](deploy/README.md): Docker Compose with PostgreSQL, gunicorn and
+Caddy (automatic HTTPS), serving the PWA and the API from one domain.

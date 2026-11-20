@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: librete
+          POSTGRES_USER: librete
+          POSTGRES_PASSWORD: librete
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U librete"
+          --health-interval 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://librete:librete@localhost:5432/librete
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run pytest --cov=librete --cov-report=term-missing
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t librete-api .

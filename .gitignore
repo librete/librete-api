@@ -11,3 +11,7 @@ staticfiles/*
 htmlcov/
 .vscode/
 .idea/
+deploy/.env
+deploy/backups/
+deploy/web/*
+!deploy/web/.gitkeep

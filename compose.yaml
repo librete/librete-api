@@ -1,0 +1,35 @@
+# Local development: PostgreSQL + the API on http://localhost:8000
+#   docker compose up --build
+# The admin user can be created with:
+#   docker compose exec api python manage.py createsuperuser
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: librete
+      POSTGRES_USER: librete
+      POSTGRES_PASSWORD: librete
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U librete"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: .
+    environment:
+      DEBUG: "1"
+      DATABASE_URL: postgres://librete:librete@db:5432/librete
+      ALLOWED_HOSTS: "*"
+      EMAIL_URL: consolemail://
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db-data:

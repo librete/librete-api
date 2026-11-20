@@ -39,7 +39,7 @@ addopts = "--strict-markers"
 
 [tool.ruff]
 line-length = 99
-target-version = "py312"
+target-version = "py313"
 extend-exclude = ["*/migrations/*"]
 
 [tool.ruff.lint]
