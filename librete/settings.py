@@ -6,6 +6,7 @@ project root). See `.env.example` for the full list.
 """
 
 from pathlib import Path
+from urllib.parse import urlsplit
 
 import environ
 
@@ -28,6 +29,12 @@ ALLOWED_HOSTS += [host for host in ("localhost", "127.0.0.1") if host not in ALL
 
 # URL of the web app (PWA). Used in emails sent to users.
 FRONTEND_URL = env("FRONTEND_URL", default="http://localhost:8100").rstrip("/")
+# Public base URL of the API (calendar feed and data export links). In production the API is
+# served from the same origin as the web app.
+PUBLIC_URL = env("PUBLIC_URL", default=FRONTEND_URL).rstrip("/")
+# Domain part of the UIDs in calendar feeds (`librete-event-<id>@<domain>`). Calendar apps
+# identify events by UID, so don't change it once feeds are in use.
+PUBLIC_DOMAIN = env("PUBLIC_DOMAIN", default=urlsplit(PUBLIC_URL).hostname or "localhost")
 
 
 # Application definition
@@ -174,6 +181,9 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_RATES": {
         "anon": env("THROTTLE_ANON", default="60/minute"),
         "user": env("THROTTLE_USER", default="600/minute"),
+        # Per calendar feed token (calendar apps poll; responses are cached for 5 minutes).
+        "ics_feed": env("THROTTLE_ICS_FEED", default="60/hour"),
+        "ics_import": env("THROTTLE_ICS_IMPORT", default="30/hour"),
     },
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "TEST_REQUEST_DEFAULT_FORMAT": "json",

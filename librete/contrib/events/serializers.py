@@ -68,6 +68,13 @@ class EventSerializer(DateRangeValidationMixin, OwnedModelSerializer):
         "series id); false for stored events.",
     )
 
+    ics_uid = serializers.CharField(
+        read_only=True,
+        allow_null=True,
+        help_text="UID of the calendar (ICS) event this event was imported from; re-importing "
+        "the same UID updates it. Null for events created in Librete.",
+    )
+
     class Meta:
         model = Event
         fields = (
@@ -86,6 +93,7 @@ class EventSerializer(DateRangeValidationMixin, OwnedModelSerializer):
             "original_start",
             "occurrence_start",
             "is_occurrence",
+            "ics_uid",
             "created_at",
             "updated_at",
             "version",

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-20 16:14+0000\n"
+"POT-Creation-Date: 2026-11-20 16:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,7 +62,7 @@ msgstr "Категория по подразбиране"
 msgid "Default categories"
 msgstr "Категории по подразбиране"
 
-#: librete/contrib/events/apps.py:7 librete/contrib/events/models.py:66
+#: librete/contrib/events/apps.py:7 librete/contrib/events/models.py:75
 #: librete/contrib/sync/models.py:16
 msgid "Events"
 msgstr "Събития"
@@ -121,7 +121,15 @@ msgstr "Първоначално начало"
 msgid "The start of the occurrence this event replaces."
 msgstr "Началото на повторението, което това събитие заменя."
 
-#: librete/contrib/events/models.py:65 librete/contrib/reminders/models.py:20
+#: librete/contrib/events/models.py:62
+msgid "Calendar UID"
+msgstr "UID в календара"
+
+#: librete/contrib/events/models.py:66
+msgid "UID of the imported calendar event (re-imports update it)."
+msgstr "UID на импортираното календарно събитие (повторен импорт го обновява)."
+
+#: librete/contrib/events/models.py:74 librete/contrib/reminders/models.py:20
 msgid "Event"
 msgstr "Събитие"
 
@@ -130,23 +138,23 @@ msgstr "Събитие"
 msgid "Expected a list of date-times."
 msgstr "Очаква се списък с дати и часове."
 
-#: librete/contrib/events/serializers.py:116
+#: librete/contrib/events/serializers.py:124
 msgid "An event cannot replace its own occurrence."
 msgstr "Събитие не може да замени собственото си повторение."
 
-#: librete/contrib/events/serializers.py:120
+#: librete/contrib/events/serializers.py:128
 msgid "Choose a recurring event."
 msgstr "Изберете повтарящо се събитие."
 
-#: librete/contrib/events/serializers.py:124
+#: librete/contrib/events/serializers.py:132
 msgid "An event that replaces an occurrence cannot repeat."
 msgstr "Събитие, което заменя повторение, не може да се повтаря."
 
-#: librete/contrib/events/serializers.py:128
+#: librete/contrib/events/serializers.py:136
 msgid "This field is required with recurrence_parent."
 msgstr "Това поле е задължително заедно с recurrence_parent."
 
-#: librete/contrib/events/serializers.py:132
+#: librete/contrib/events/serializers.py:140
 msgid "Only allowed together with recurrence_parent."
 msgstr "Позволено е само заедно с recurrence_parent."
 
@@ -241,7 +249,7 @@ msgid "Worker runs"
 msgstr "Изпълнения на фонов процес"
 
 #: librete/contrib/reminders/models.py:127 librete/contrib/sync/models.py:27
-#: librete/contrib/users/models.py:75
+#: librete/contrib/users/models.py:89
 msgid "User"
 msgstr "Потребител"
 
@@ -467,7 +475,7 @@ msgstr "Права"
 msgid "Important dates"
 msgstr "Важни дати"
 
-#: librete/contrib/users/apps.py:8 librete/contrib/users/models.py:76
+#: librete/contrib/users/apps.py:8 librete/contrib/users/models.py:90
 msgid "Users"
 msgstr "Потребители"
 
@@ -511,6 +519,18 @@ msgstr "Напомняния за задачи по подразбиране"
 #: librete/contrib/users/models.py:65
 msgid "Minutes before the due date, used for new tasks."
 msgstr "Минути преди крайния срок, използвани за нови задачи."
+
+#: librete/contrib/users/models.py:69
+msgid "Calendar feed token"
+msgstr "Ключ на календарния абонамент"
+
+#: librete/contrib/users/models.py:77
+msgid "Tasks in the calendar feed"
+msgstr "Задачи в календарния абонамент"
+
+#: librete/contrib/users/models.py:79
+msgid "Include tasks with a date in the calendar feed."
+msgstr "Включване на задачите с дата в календарния абонамент."
 
 #: librete/contrib/users/serializers.py:42
 msgid "Invalid password."

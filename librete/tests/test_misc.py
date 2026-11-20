@@ -25,6 +25,7 @@ def test_openapi_schema(api_client):
         "/api/events/",
         "/api/tasks/{id}/",
         "/api/users/me/",
+        "/api/users/me/ics/",
         "/api/stats/",
         "/api/sync/",
         "/api/search/",

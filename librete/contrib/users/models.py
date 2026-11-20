@@ -64,6 +64,20 @@ class User(AbstractUser):
         validators=[validate_reminders],
         help_text=_("Minutes before the due date, used for new tasks."),
     )
+    # The secret of the calendar feed URL (`/ics/<token>.ics`); null = no feed.
+    ics_token = models.CharField(
+        _("Calendar feed token"),
+        max_length=64,
+        unique=True,
+        null=True,
+        blank=True,
+        editable=False,
+    )
+    ics_include_tasks = models.BooleanField(
+        _("Tasks in the calendar feed"),
+        default=False,
+        help_text=_("Include tasks with a date in the calendar feed."),
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

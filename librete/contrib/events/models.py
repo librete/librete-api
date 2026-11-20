@@ -56,6 +56,15 @@ class Event(OwnedModel):
         blank=True,
         help_text=_("The start of the occurrence this event replaces."),
     )
+    # The UID of the calendar (ICS) event this one was imported from; overrides share their
+    # series' UID and are told apart by `original_start`.
+    ics_uid = models.CharField(  # noqa: DJ001
+        _("Calendar UID"),
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text=_("UID of the imported calendar event (re-imports update it)."),
+    )
 
     # Set on the copies that stand for occurrences in expanded lists (see recurrence.py).
     occurrence_start = None
@@ -78,6 +87,16 @@ class Event(OwnedModel):
                     recurrence__isnull=True,
                 ),
                 name="event_override_fields",
+            ),
+            models.UniqueConstraint(
+                fields=["author", "ics_uid"],
+                condition=models.Q(ics_uid__isnull=False, original_start__isnull=True),
+                name="event_unique_ics_uid",
+            ),
+            models.UniqueConstraint(
+                fields=["author", "ics_uid", "original_start"],
+                condition=models.Q(ics_uid__isnull=False, original_start__isnull=False),
+                name="event_unique_ics_uid_override",
             ),
         ]
 

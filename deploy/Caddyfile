@@ -10,7 +10,7 @@
 		-Server
 	}
 
-	@backend path /api/* /_allauth/* /admin/* /static/*
+	@backend path /api/* /_allauth/* /admin/* /static/* /ics/*
 	handle @backend {
 		reverse_proxy api:8000
 	}

@@ -19,6 +19,7 @@ dependencies = [
     "tzdata>=2026.6",
     "pywebpush>=2.5.0",
     "python-dateutil>=2.9",
+    "icalendar>=7.3.2",
 ]
 
 [dependency-groups]

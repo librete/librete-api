@@ -2,8 +2,8 @@
 
 This stack runs PostgreSQL, the API (gunicorn), a reminder `worker` (sends event reminders
 to the PWA via Web Push every 60 s) and [Caddy](https://caddyserver.com/), which serves the
-PWA and proxies `/api/`, `/_allauth/`, `/admin/` and `/static/` to the API on the same
-domain, with automatic HTTPS.
+PWA and proxies `/api/`, `/_allauth/`, `/admin/`, `/static/` and `/ics/` (calendar feeds) to
+the API on the same domain, with automatic HTTPS.
 
 Tested target: Ubuntu Server 26.04 with Docker Engine and the Compose plugin.
 

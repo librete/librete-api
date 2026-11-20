@@ -10,6 +10,7 @@ x-app-environment: &app-environment
   DATABASE_URL: postgres://librete:librete@db:5432/librete
   ALLOWED_HOSTS: "*"
   EMAIL_URL: consolemail://
+  PUBLIC_URL: http://localhost:8000
   VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY:-}
   VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY:-}
   VAPID_SUBJECT: ${VAPID_SUBJECT:-mailto:admin@localhost}

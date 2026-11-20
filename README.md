@@ -44,6 +44,7 @@ uv run ruff format .
 | `/_allauth/app/v1/auth/signup`, `/auth/login`, `/auth/session` (DELETE = logout), `/auth/email/verify`, `/auth/password/request`, `/auth/password/reset`, `/account/password/change` | Authentication (django-allauth headless, "app" client) |
 | `/api/users/me/` | GET / PATCH the current user's profile (`first_name`, `last_name`, `language`) |
 | `/api/users/me/delete/` | POST `{password}` to delete the account and all data |
+| `/api/users/me/ics/`, `/ics/<token>.ics` | Calendar subscription feed (secret URL: create/rotate, revoke, include tasks) |
 | `/api/categories/`, `/api/events/`, `/api/notes/`, `/api/tasks/` | CRUD, scoped to the current user; filtering, `?search=`, `?ordering=`, `?page=`/`?page_size=` |
 | `/api/stats/?year=&tz=` | Totals and monthly activity for the home screen |
 | `/api/health/` | Health check |

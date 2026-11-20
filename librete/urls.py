@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.db import connection
 from django.http import JsonResponse
-from django.urls import include, path
+from django.urls import include, path, re_path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.routers import DefaultRouter
 
 from .contrib.categories.views import CategoryViewSet
 from .contrib.events.views import EventViewSet
+from .contrib.ics.views import FeedSettingsView, FeedView
 from .contrib.notes.views import NoteViewSet
 from .contrib.reminders.views import ActionView, PushSubscriptionViewSet, VapidKeyView
 from .contrib.search.views import SearchView
@@ -34,6 +35,7 @@ urlpatterns = [
     path("api/", include(router.urls)),
     path("api/users/me/", MeView.as_view(), name="user-me"),
     path("api/users/me/delete/", AccountDeleteView.as_view(), name="user-delete"),
+    path("api/users/me/ics/", FeedSettingsView.as_view(), name="user-ics"),
     path("api/stats/", StatsView.as_view(), name="stats"),
     path("api/sync/", SyncView.as_view(), name="sync"),
     path("api/search/", SearchView.as_view(), name="search"),
@@ -41,6 +43,7 @@ urlpatterns = [
     path("api/health/", health, name="health"),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="docs"),
+    re_path(r"^ics/(?P<token>[A-Za-z0-9_-]{16,128})\.ics$", FeedView.as_view(), name="ics-feed"),
     path("_allauth/", include("allauth.headless.urls")),
     path("admin/", admin.site.urls),
 ]

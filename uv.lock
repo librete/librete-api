@@ -870,6 +870,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/7c/af/249d1576653b69c20b9ac30e284b63bd94af6a175d72d87813235caf2482/http_ece-1.2.1.tar.gz", hash = "sha256:8c6ab23116bbf6affda894acfd5f2ca0fb8facbcbb72121c11c75c33e7ce8cff", size = 8830, upload-time = "2024-08-08T00:10:47.301Z" }
 
 [[package]]
+name = "icalendar"
+version = "7.3.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "python-dateutil" },
+    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
+    { name = "tzdata" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/9d/2d/db155eaa6ffe65b370b9899a69ac67cd439a33a9e9610327cef1ffaac86e/icalendar-7.3.2.tar.gz", hash = "sha256:f15380927aed4318860e001c03b543c48578c73aec46e2d384c5d0802082b808", size = 525771, upload-time = "2026-11-20T11:05:15.591Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a5/f9/ececbb7618626dd6f70603d2b8d6faa39d7c81631b434fa242288ede4719/icalendar-7.3.2-py3-none-any.whl", hash = "sha256:f95ce4ff8f41d8ad9ca253a676ef40c672abd3774458d197c215055a0d805cc4", size = 542537, upload-time = "2026-11-20T11:05:13.921Z" },
+]
+
+[[package]]
 name = "idna"
 version = "3.20"
 source = { registry = "https://pypi.org/simple" }
@@ -995,6 +1009,7 @@ dependencies = [
     { name = "djangorestframework" },
     { name = "drf-spectacular" },
     { name = "gunicorn" },
+    { name = "icalendar" },
     { name = "psycopg", extra = ["binary"] },
     { name = "python-dateutil" },
     { name = "pywebpush" },
@@ -1025,6 +1040,7 @@ requires-dist = [
     { name = "djangorestframework", specifier = ">=3.16" },
     { name = "drf-spectacular", specifier = ">=0.28" },
     { name = "gunicorn", specifier = ">=23" },
+    { name = "icalendar", specifier = ">=7.3.2" },
     { name = "psycopg", extras = ["binary"], specifier = ">=3.2" },
     { name = "python-dateutil", specifier = ">=2.9" },
     { name = "pywebpush", specifier = ">=2.5.0" },
