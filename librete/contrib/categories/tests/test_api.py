@@ -84,3 +84,25 @@ def test_default_categories_use_user_language_with_fallback():
     user = UserFactory(language="bg")
     names = {c.name for c in create_default_categories(user)}
     assert names == {"Лични", "Работа", "Дом", "Hobbies"}
+
+
+@pytest.mark.django_db
+def test_color_is_stored_in_lower_case_and_can_be_cleared(auth_client, user):
+    response = auth_client.post("/api/categories/", {"name": "Work", "color": "#1E88E5"})
+    assert response.status_code == 201, response.json()
+    body = response.json()
+    assert body["color"] == "#1e88e5"
+    assert Category.objects.get(pk=body["id"]).color == "#1e88e5"
+
+    url = f"/api/categories/{body['id']}/"
+    assert auth_client.patch(url, {"color": "#ABCDEF"}).json()["color"] == "#abcdef"
+    assert auth_client.patch(url, {"color": None}).json()["color"] is None
+    assert auth_client.post("/api/categories/", {"name": "Plain"}).json()["color"] is None
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize("color", ["red", "#fff", "1e88e5", "#1e88e5ff", "#1e88eg", ""])
+def test_invalid_colors_are_rejected(auth_client, user, color):
+    response = auth_client.post("/api/categories/", {"name": "Work", "color": color})
+    assert response.status_code == 400
+    assert "color" in response.json()

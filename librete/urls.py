@@ -9,6 +9,7 @@ from .contrib.categories.views import CategoryViewSet
 from .contrib.events.views import EventViewSet
 from .contrib.notes.views import NoteViewSet
 from .contrib.reminders.views import PushSubscriptionViewSet, VapidKeyView
+from .contrib.search.views import SearchView
 from .contrib.stats.views import StatsView
 from .contrib.sync.views import SyncView
 from .contrib.tasks.views import TaskViewSet
@@ -35,6 +36,7 @@ urlpatterns = [
     path("api/users/me/delete/", AccountDeleteView.as_view(), name="user-delete"),
     path("api/stats/", StatsView.as_view(), name="stats"),
     path("api/sync/", SyncView.as_view(), name="sync"),
+    path("api/search/", SearchView.as_view(), name="search"),
     path("api/health/", health, name="health"),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="docs"),

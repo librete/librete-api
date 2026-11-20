@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-20 13:55+0200\n"
+"POT-Creation-Date: 2026-11-20 13:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,33 +18,46 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: librete/contrib/categories/apps.py:7 librete/contrib/categories/models.py:14
+#: librete/contrib/categories/apps.py:7 librete/contrib/categories/models.py:27
 #: librete/contrib/sync/models.py:15
 msgid "Categories"
 msgstr "Категории"
 
-#: librete/contrib/categories/models.py:9
-#: librete/contrib/categories/models.py:24 librete/contrib/events/models.py:10
+#: librete/contrib/categories/models.py:10
+#: librete/contrib/categories/models.py:37 librete/contrib/events/models.py:10
 #: librete/contrib/notes/models.py:9 librete/contrib/tasks/models.py:18
 msgid "Name"
 msgstr "Име"
 
-#: librete/contrib/categories/models.py:10
-#: librete/contrib/categories/models.py:25 librete/contrib/events/models.py:17
+#: librete/contrib/categories/models.py:11
+#: librete/contrib/categories/models.py:38 librete/contrib/events/models.py:17
 #: librete/contrib/tasks/models.py:32
 msgid "Description"
 msgstr "Описание"
 
-#: librete/contrib/categories/models.py:13 librete/contrib/events/models.py:12
+#: librete/contrib/categories/models.py:13
+msgid "Color"
+msgstr "Цвят"
+
+#: librete/contrib/categories/models.py:19
+#: librete/contrib/categories/serializers.py:44
+msgid "Enter a color in the #RRGGBB format."
+msgstr "Въведете цвят във формат #RRGGBB."
+
+#: librete/contrib/categories/models.py:22
+msgid "Hex color such as #1e88e5, stored in lower case."
+msgstr "Шестнадесетичен цвят, напр. #1e88e5, съхранява се с малки букви."
+
+#: librete/contrib/categories/models.py:26 librete/contrib/events/models.py:12
 #: librete/contrib/notes/models.py:11 librete/contrib/tasks/models.py:20
 msgid "Category"
 msgstr "Категория"
 
-#: librete/contrib/categories/models.py:30
+#: librete/contrib/categories/models.py:43
 msgid "Default category"
 msgstr "Категория по подразбиране"
 
-#: librete/contrib/categories/models.py:31
+#: librete/contrib/categories/models.py:44
 msgid "Default categories"
 msgstr "Категории по подразбиране"
 
@@ -181,6 +194,20 @@ msgstr "Напомнянията трябва да са между 0 и %(max)s 
 msgid "At most %(max)s reminders are allowed."
 msgstr "Позволени са най-много %(max)s напомняния."
 
+#: librete/contrib/search/apps.py:7
+msgid "Search"
+msgstr "Търсене"
+
+#: librete/contrib/search/views.py:47
+#, python-format
+msgid "Enter at least %(min)s characters."
+msgstr "Въведете поне %(min)s знака."
+
+#: librete/contrib/search/views.py:56 librete/contrib/sync/views.py:34
+#, python-format
+msgid "Unknown types: %(types)s."
+msgstr "Непознати типове: %(types)s."
+
 #: librete/contrib/stats/views.py:59
 msgid "Unknown time zone."
 msgstr "Непозната часова зона."
@@ -225,11 +252,6 @@ msgstr "Промяна"
 #: librete/contrib/sync/models.py:38
 msgid "Changes"
 msgstr "Промени"
-
-#: librete/contrib/sync/views.py:34
-#, python-format
-msgid "Unknown types: %(types)s."
-msgstr "Непознати типове: %(types)s."
 
 #: librete/contrib/tasks/models.py:10
 msgid "High"

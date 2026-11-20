@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "librete.contrib.tasks.apps.TasksConfig",
     "librete.contrib.reminders.apps.RemindersConfig",
     "librete.contrib.sync.apps.SyncConfig",
+    "librete.contrib.search.apps.SearchConfig",
 ]
 
 if DEBUG:
