@@ -12,12 +12,12 @@ class TimestampModel(models.Model):
 
 
 class OwnedModel(TimestampModel):
-    """Base for user-owned records. `related_name` is the model's plural, e.g. `user.events`."""
+    """Base for user-owned records. Reverse accessors are named after the app: `user.events`."""
 
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         verbose_name=_("Author"),
-        related_name="%(class)ss",
+        related_name="%(app_label)s",
         on_delete=models.CASCADE,
     )
 

@@ -58,3 +58,12 @@ def test_there_is_no_user_list_or_detail(auth_client, other_user):
     assert auth_client.get(f"/api/users/{other_user.pk}/").status_code == 404
     assert auth_client.delete(f"/api/users/{other_user.pk}/").status_code == 404
     assert User.objects.filter(pk=other_user.pk).exists()
+
+
+@pytest.mark.django_db
+def test_reverse_accessors(user):
+    EventFactory(author=user)
+    assert user.categories.count() == 1
+    assert user.events.count() == 1
+    assert user.notes.count() == 0
+    assert user.tasks.count() == 0

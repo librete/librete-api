@@ -43,6 +43,12 @@ docker compose exec api python manage.py createsuperuser
 
 Migrations run automatically when the API container starts.
 
+Check the deployment from your workstation (in `librete-mobile`):
+
+```bash
+E2E_BASE_URL=https://librete.eu npm run e2e
+```
+
 ## Updating
 
 ```bash
