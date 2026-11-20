@@ -2,13 +2,29 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
+from librete.contrib.reminders.fields import RemindersField
+
 User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
+    default_reminders = RemindersField(
+        required=False,
+        help_text="Minutes before the start used for new events (0..40320, at most 5).",
+    )
+
     class Meta:
         model = User
-        fields = ("id", "email", "first_name", "last_name", "language", "date_joined")
+        fields = (
+            "id",
+            "email",
+            "first_name",
+            "last_name",
+            "language",
+            "time_zone",
+            "default_reminders",
+            "date_joined",
+        )
         read_only_fields = ("id", "email", "date_joined")
 
 

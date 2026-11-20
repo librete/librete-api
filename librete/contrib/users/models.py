@@ -3,6 +3,10 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from librete.contrib.reminders.validators import default_reminders, validate_reminders
+
+from .validators import validate_time_zone
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -38,6 +42,20 @@ class User(AbstractUser):
         max_length=10,
         choices=settings.LANGUAGES,
         default=settings.LANGUAGE_CODE,
+    )
+    time_zone = models.CharField(
+        _("Time zone"),
+        max_length=64,
+        default="UTC",
+        validators=[validate_time_zone],
+        help_text=_("IANA time zone name, e.g. Europe/Sofia. Used in reminders."),
+    )
+    default_reminders = models.JSONField(
+        _("Default reminders"),
+        default=default_reminders,
+        blank=True,
+        validators=[validate_reminders],
+        help_text=_("Minutes before the start, used for new events."),
     )
 
     USERNAME_FIELD = "email"

@@ -12,7 +12,8 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ("email", "first_name", "last_name")
     fieldsets = (
         (None, {"fields": ("email", "password")}),
-        (_("Personal info"), {"fields": ("first_name", "last_name", "language")}),
+        (_("Personal info"), {"fields": ("first_name", "last_name", "language", "time_zone")}),
+        (_("Reminders"), {"fields": ("default_reminders",)}),
         (
             _("Permissions"),
             {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")},

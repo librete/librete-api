@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from librete.contrib.categories.models import Category
+from librete.contrib.reminders.validators import validate_reminders
 from librete.utils.models import OwnedModel
 
 
@@ -14,6 +15,13 @@ class Event(OwnedModel):
     end_date = models.DateTimeField(_("End date"))
     location = models.CharField(_("Location"), max_length=254, blank=True)
     description = models.TextField(_("Description"), blank=True)
+    reminders = models.JSONField(
+        _("Reminders"),
+        default=list,
+        blank=True,
+        validators=[validate_reminders],
+        help_text=_("Minutes before the start, e.g. [60, 15]."),
+    )
 
     class Meta(OwnedModel.Meta):
         verbose_name = _("Event")
