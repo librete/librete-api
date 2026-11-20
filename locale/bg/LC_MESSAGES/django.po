@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-20 13:13+0000\n"
+"POT-Creation-Date: 2026-11-20 15:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,78 +18,148 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: librete/contrib/categories/apps.py:7 librete/contrib/categories/models.py:27
+#: librete/contrib/categories/apps.py:7 librete/contrib/categories/models.py:28
 #: librete/contrib/sync/models.py:15
 msgid "Categories"
 msgstr "Категории"
 
 #: librete/contrib/categories/models.py:10
-#: librete/contrib/categories/models.py:37 librete/contrib/events/models.py:10
+#: librete/contrib/categories/models.py:38 librete/contrib/events/models.py:13
 #: librete/contrib/notes/models.py:9 librete/contrib/tasks/models.py:18
 msgid "Name"
 msgstr "Име"
 
 #: librete/contrib/categories/models.py:11
-#: librete/contrib/categories/models.py:38 librete/contrib/events/models.py:17
+#: librete/contrib/categories/models.py:39 librete/contrib/events/models.py:20
 #: librete/contrib/tasks/models.py:32
 msgid "Description"
 msgstr "Описание"
 
-#: librete/contrib/categories/models.py:13
+#: librete/contrib/categories/models.py:14
 msgid "Color"
 msgstr "Цвят"
 
-#: librete/contrib/categories/models.py:19
+#: librete/contrib/categories/models.py:20
 #: librete/contrib/categories/serializers.py:44
 msgid "Enter a color in the #RRGGBB format."
 msgstr "Въведете цвят във формат #RRGGBB."
 
-#: librete/contrib/categories/models.py:22
+#: librete/contrib/categories/models.py:23
 msgid "Hex color such as #1e88e5, stored in lower case."
 msgstr "Шестнадесетичен цвят, напр. #1e88e5, съхранява се с малки букви."
 
-#: librete/contrib/categories/models.py:26 librete/contrib/events/models.py:12
+#: librete/contrib/categories/models.py:27 librete/contrib/events/models.py:15
 #: librete/contrib/notes/models.py:11 librete/contrib/tasks/models.py:20
 msgid "Category"
 msgstr "Категория"
 
-#: librete/contrib/categories/models.py:43
+#: librete/contrib/categories/models.py:44
 msgid "Default category"
 msgstr "Категория по подразбиране"
 
-#: librete/contrib/categories/models.py:44
+#: librete/contrib/categories/models.py:45
 msgid "Default categories"
 msgstr "Категории по подразбиране"
 
-#: librete/contrib/events/apps.py:7 librete/contrib/events/models.py:28
+#: librete/contrib/events/apps.py:7 librete/contrib/events/models.py:66
 #: librete/contrib/sync/models.py:16
 msgid "Events"
 msgstr "Събития"
 
-#: librete/contrib/events/models.py:14 librete/contrib/tasks/models.py:30
+#: librete/contrib/events/models.py:17 librete/contrib/tasks/models.py:30
 msgid "Start date"
 msgstr "Начална дата"
 
-#: librete/contrib/events/models.py:15 librete/contrib/tasks/models.py:31
+#: librete/contrib/events/models.py:18 librete/contrib/tasks/models.py:31
 msgid "End date"
 msgstr "Крайна дата"
 
-#: librete/contrib/events/models.py:16
+#: librete/contrib/events/models.py:19
 msgid "Location"
 msgstr "Място"
 
-#: librete/contrib/events/models.py:19 librete/contrib/reminders/apps.py:7
+#: librete/contrib/events/models.py:22 librete/contrib/reminders/apps.py:7
 #: librete/contrib/users/admin.py:16
 msgid "Reminders"
 msgstr "Напомняния"
 
-#: librete/contrib/events/models.py:23
+#: librete/contrib/events/models.py:26
 msgid "Minutes before the start, e.g. [60, 15]."
 msgstr "Минути преди началото, напр. [60, 15]."
 
-#: librete/contrib/events/models.py:27 librete/contrib/reminders/models.py:16
+#: librete/contrib/events/models.py:30
+msgid "Recurrence"
+msgstr "Повторение"
+
+#: librete/contrib/events/models.py:35
+msgid "RFC 5545 RRULE without the RRULE: prefix, e.g. FREQ=WEEKLY;BYDAY=MO."
+msgstr "RRULE по RFC 5545 без префикса RRULE:, напр. FREQ=WEEKLY;BYDAY=MO."
+
+#: librete/contrib/events/models.py:38
+msgid "Skipped occurrences"
+msgstr "Пропуснати повторения"
+
+#: librete/contrib/events/models.py:42
+msgid "Original starts (UTC) of the occurrences that are skipped."
+msgstr "Първоначалните начала (UTC) на пропуснатите повторения."
+
+#: librete/contrib/events/models.py:46
+#, fuzzy
+#| msgid "Categories"
+msgid "Series"
+msgstr "Категории"
+
+#: librete/contrib/events/models.py:51
+msgid "Set on an event that replaces one occurrence of a recurring event."
+msgstr "Задава се за събитие, което заменя едно повторение на повтарящо се събитие."
+
+#: librete/contrib/events/models.py:54
+msgid "Original start"
+msgstr "Първоначално начало"
+
+#: librete/contrib/events/models.py:57
+msgid "The start of the occurrence this event replaces."
+msgstr "Началото на повторението, което това събитие заменя."
+
+#: librete/contrib/events/models.py:65 librete/contrib/reminders/models.py:16
 msgid "Event"
 msgstr "Събитие"
+
+#: librete/contrib/events/recurrence.py:34
+#: librete/contrib/events/recurrence.py:38
+#, fuzzy
+#| msgid "Expected a list of minutes."
+msgid "Expected a list of date-times."
+msgstr "Очаква се списък с минути."
+
+#: librete/contrib/events/serializers.py:116
+msgid "An event cannot replace its own occurrence."
+msgstr "Събитие не може да замени собственото си повторение."
+
+#: librete/contrib/events/serializers.py:120
+msgid "Choose a recurring event."
+msgstr "Изберете повтарящо се събитие."
+
+#: librete/contrib/events/serializers.py:124
+msgid "An event that replaces an occurrence cannot repeat."
+msgstr "Събитие, което заменя повторение, не може да се повтаря."
+
+#: librete/contrib/events/serializers.py:128
+msgid "This field is required with recurrence_parent."
+msgstr "Това поле е задължително заедно с recurrence_parent."
+
+#: librete/contrib/events/serializers.py:132
+msgid "Only allowed together with recurrence_parent."
+msgstr "Позволено е само заедно с recurrence_parent."
+
+#: librete/contrib/events/views.py:34
+msgid "Required with expand=1."
+msgstr "Задължително при expand=1."
+
+#: librete/contrib/events/views.py:44
+#, python-format
+msgid "The range can be at most %(days)s days."
+msgstr "Периодът може да бъде най-много %(days)s дни."
 
 #: librete/contrib/notes/apps.py:7 librete/contrib/notes/models.py:17
 #: librete/contrib/sync/models.py:17
@@ -401,6 +471,26 @@ msgstr "Клиентски идентификатор"
 #: librete/utils/models.py:41
 msgid "Version"
 msgstr "Версия"
+
+#: librete/utils/recurrence.py:52
+msgid "Enter a valid recurrence rule, e.g. FREQ=WEEKLY;BYDAY=MO."
+msgstr "Въведете валидно правило за повторение, напр. FREQ=WEEKLY;BYDAY=MO."
+
+#: librete/utils/recurrence.py:83
+msgid "The frequency must be DAILY, WEEKLY, MONTHLY or YEARLY."
+msgstr "Честотата трябва да бъде DAILY, WEEKLY, MONTHLY или YEARLY."
+
+#: librete/utils/recurrence.py:87
+msgid "UNTIL must be a UTC date and time such as 20301231T235959Z."
+msgstr "UNTIL трябва да бъде дата и час в UTC, напр. 20301231T235959Z."
+
+#: librete/utils/recurrence.py:90
+msgid "Use either COUNT or UNTIL, not both."
+msgstr "Използвайте COUNT или UNTIL, но не и двете."
+
+#: librete/utils/recurrence.py:130
+msgid "The recurrence rule never produces an occurrence."
+msgstr "Правилото за повторение никога не дава повторение."
 
 #: librete/utils/serializers.py:25
 msgid "End date cannot be before start date."
