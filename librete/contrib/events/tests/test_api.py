@@ -98,3 +98,22 @@ def test_upcoming_query(auth_client, user, category):
         {"start_date__gte": now.isoformat(), "ordering": "start_date", "page_size": 5},
     )
     assert [e["name"] for e in response.json()["results"]] == ["soon", "later"]
+
+
+@pytest.mark.django_db
+def test_repeating_filter_lists_series_and_overrides(auth_client, user, category):
+    EventFactory(author=user, category=category, name="Single")
+    series = EventFactory(author=user, category=category, name="Series", recurrence="FREQ=DAILY")
+    EventFactory(
+        author=user,
+        category=category,
+        name="Override",
+        recurrence_parent=series,
+        original_start=series.start_date,
+    )
+    EventFactory(name="Someone else's", recurrence="FREQ=DAILY")
+    response = auth_client.get("/api/events/", {"repeating": "1"})
+    assert response.status_code == 200
+    assert sorted(item["name"] for item in response.json()["results"]) == ["Override", "Series"]
+    response = auth_client.get("/api/events/")
+    assert response.json()["count"] == 3

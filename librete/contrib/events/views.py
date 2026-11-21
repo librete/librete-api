@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from django_filters import utils as filter_utils
 from django_filters.rest_framework import DjangoFilterBackend
@@ -63,7 +64,14 @@ class ExpandQuerySerializer(serializers.Serializer):
                 "skipped (`exdates`) and overridden occurrences are left out, and overrides "
                 "are listed as stored events with `occurrence_start` = their "
                 "`original_start`. `category` and `search` still apply; `ordering` doesn't.",
-            )
+            ),
+            OpenApiParameter(
+                "repeating",
+                OpenApiTypes.BOOL,
+                description="`1`: only series (events with `recurrence`) and their overrides "
+                "(events with `recurrence_parent`), stored rows. The app keeps these on the "
+                "device and expands them itself.",
+            ),
         ]
     )
 )
@@ -77,6 +85,14 @@ class EventViewSet(OwnedModelViewSet):
     }
     search_fields = ("name", "location", "description")
     ordering_fields = ("name", "start_date", "end_date", "created_at", "updated_at")
+
+    def filter_queryset(self, queryset):
+        queryset = super().filter_queryset(queryset)
+        if self.request.query_params.get("repeating", "").lower() in ("1", "true"):
+            queryset = queryset.filter(
+                Q(recurrence__isnull=False) | Q(recurrence_parent__isnull=False)
+            )
+        return queryset
 
     def list(self, request, *args, **kwargs):
         if "expand" not in request.query_params:
